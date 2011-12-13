@@ -1,0 +1,1 @@
+chat-format: "{prefix}{group}{suffix} {dispname}&f: {message}"

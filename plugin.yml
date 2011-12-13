@@ -1,0 +1,17 @@
+name: RoyalChat
+main: tk.royalcraf.royalchat.RoyalChat
+version: 0.0.1
+author: jkcclemens
+
+commands:
+  rchat:
+    description: Display version number.
+    usage: /<command>
+    
+  me:
+    description: Allows you to emote.
+    usage: /<command> <status>
+    
+  clear:
+    description: Clears the chat screen.
+    usage: /<command>

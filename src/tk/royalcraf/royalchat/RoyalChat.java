@@ -1,0 +1,93 @@
+package tk.royalcraf.royalchat;
+
+import java.util.logging.Logger;
+
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Event;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class RoyalChat extends JavaPlugin {
+
+	Logger log = Logger.getLogger("Minecraft");
+
+	public static Permission permission = null;
+	public static Chat chat = null;
+
+	private final RoyalChatPListener playerListener = new RoyalChatPListener(
+			this);
+
+	public Boolean setupPermissions() {
+		RegisteredServiceProvider<Permission> permissionProvider = getServer()
+				.getServicesManager().getRegistration(
+						net.milkbowl.vault.permission.Permission.class);
+		if (permissionProvider != null) {
+			permission = permissionProvider.getProvider();
+		}
+		return (permission != null);
+	}
+
+	public Boolean setupChat() {
+		RegisteredServiceProvider<Chat> chatProvider = getServer()
+				.getServicesManager().getRegistration(
+						net.milkbowl.vault.chat.Chat.class);
+		if (chatProvider != null) {
+			chat = chatProvider.getProvider();
+		}
+
+		return (chat != null);
+	}
+
+	public void loadConfiguration() {
+		this.getConfig().options().copyDefaults(true);
+		this.saveConfig();
+		/*
+		 * File file = new File(this.getDataFolder() + "/"); boolean exists =
+		 * file.exists(); if (!exists) { try { boolean success = new
+		 * File(this.getDataFolder() + "/").mkdir(); if (success) {
+		 * log.info("[RoyalChat] Created userdata directory."); } } catch
+		 * (Exception e) {
+		 * log.severe("[RoyalChat] Failed to make userdata directory!");
+		 * log.severe(e.getMessage()); } }
+		 */
+	}
+
+	protected FileConfiguration config;
+
+	public void onEnable() {
+		
+		loadConfiguration();
+
+		if (!this.setupPermissions()) {
+			log.info("[RoyalChat] No permissions plugin found! Cannot set group names! Will use default chat formatting.");
+		}
+		if (!this.setupChat()) {
+			log.info("[RoyalChat] No permissions plugin found! Cannot set up prefixes or suffixes! Will use default chat formatting.");
+		}
+
+		RoyalChatCommands cmdExec = new RoyalChatCommands(this);
+
+		getCommand("me").setExecutor(cmdExec);
+		getCommand("rchat").setExecutor(cmdExec);
+		getCommand("clear").setExecutor(cmdExec);
+
+		PluginManager pm = this.getServer().getPluginManager();
+
+		pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener,
+				Event.Priority.Normal, this);
+
+		log.info("[RoyalChat] Version 0.0.1 initiated.");
+
+	}
+
+	public void onDisable() {
+
+		log.info("[RoyalChat] Version 0.0.1 disabled.");
+
+	}
+
+}
