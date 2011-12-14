@@ -1,7 +1,7 @@
 RoyalChat
 =========
 
-RoyalChat is a *simple* (one line config file) chat manager for your Minecraft server. It uses permissions to assign group names and prefixes (and suffixes) to your liking. Everything is configurable by you.
+RoyalChat is a *simple* (two line config file) chat manager for your Minecraft server. It uses permissions to assign group names and prefixes (and suffixes) to your liking. Everything is configurable by you.
 
 RoyalChat is coded in Eclipse 3.7.1 with the following libraries:
 
