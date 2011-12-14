@@ -89,6 +89,11 @@ public class RoyalChatPListener extends PlayerListener {
 		if (message.contains("%")) {
 			message = message.replace("%", "%%");
 		}
+		if (plugin.getConfig().getBoolean("first-word-capital")) {
+			String firstLetter = message.substring(0, 1);
+			firstLetter = firstLetter.toUpperCase();
+			message = firstLetter + message.substring(1);
+		}
 
 		// If you have permissions, set chat format
 		if (plugin.setupPermissions()) {
@@ -105,9 +110,7 @@ public class RoyalChatPListener extends PlayerListener {
 						 * {message} - message
 						 */
 
-						String format = plugin.getConfig()
-								.getString("chat-format")
-								.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+						String format = plugin.formatBase;
 
 						String prefix = RoyalChat.chat.getPlayerPrefix(sender)
 								.replaceAll("(&([a-f0-9]))", "\u00A7$2");

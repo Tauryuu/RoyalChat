@@ -83,6 +83,8 @@ public class RoyalChatCommands implements CommandExecutor {
 				sender.sendMessage(ChatColor.AQUA + "RoyalChat"
 						+ ChatColor.GREEN + " version 0.0.1 reloaded.");
 				plugin.reloadConfig();
+				plugin.formatBase = plugin.getConfig().getString("chat-format")
+						.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 				return true;
 			}
 		} else if (cmd.getName().equalsIgnoreCase("me")) {
