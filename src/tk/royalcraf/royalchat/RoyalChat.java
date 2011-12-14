@@ -30,6 +30,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class RoyalChat extends JavaPlugin {
+	
+	public String version = "0.0.2";
 
 	Logger log = Logger.getLogger("Minecraft");
 
@@ -102,13 +104,13 @@ public class RoyalChat extends JavaPlugin {
 		pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener,
 				Event.Priority.Normal, this);
 
-		log.info("[RoyalChat] Version 0.0.1 initiated.");
+		log.info("[RoyalChat] Version " + this.version + " initiated.");
 
 	}
 
 	public void onDisable() {
 
-		log.info("[RoyalChat] Version 0.0.1 disabled.");
+		log.info("[RoyalChat] Version " + this.version + " disabled.");
 
 	}
 
