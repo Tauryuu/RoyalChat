@@ -82,6 +82,10 @@ public class RoyalChatPListener extends PlayerListener {
 			message = message.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 
 		}
+		
+		if (message.startsWith("&") && message.length() == 2) {
+			message = message.replaceAll("(&([a-f0-9]))", "&f");
+		}
 
 		// Replace @<user> with ChatColor.AQUA + @<user>
 		message = message.replaceAll("@.[a-zA-Z0-9_-]*", ChatColor.AQUA + "$0"
