@@ -99,30 +99,78 @@ public class RoyalChatCommands implements CommandExecutor {
 				if (args.length < 1) {
 					return false;
 				} else {
-					String format = plugin.formatMeBase;
-					Player splayer = (Player) sender;
-					String message = getFinalArg(args, 0);
+					if (plugin.setupPermissions()) {
+						if (RoyalChat.permission.isEnabled()) {
+							if (plugin.setupChat()) {
+								if (RoyalChat.chat.isEnabled()) {
+									String format = plugin.formatMeBase;
+									Player splayer = (Player) sender;
+									String message = getFinalArg(args, 0);
 
-					String prefix = RoyalChat.chat.getPlayerPrefix(splayer)
-							.replaceAll("(&([a-f0-9]))", "\u00A7$2");
-					String suffix = RoyalChat.chat.getPlayerSuffix(splayer)
-							.replaceAll("(&([a-f0-9]))", "\u00A7$2");
-					String group = RoyalChat.permission
-							.getPrimaryGroup(splayer).replaceAll(
-									"(&([a-f0-9]))", "\u00A7$2");
-					String name = splayer.getName().replaceAll("(&([a-f0-9]))",
-							"\u00A7$2");
-					String dispname = splayer.getDisplayName().replaceAll(
-							"(&([a-f0-9]))", "\u00A7$2");
+									String prefix = RoyalChat.chat
+											.getPlayerPrefix(splayer)
+											.replaceAll("(&([a-f0-9]))",
+													"\u00A7$2");
+									String suffix = RoyalChat.chat
+											.getPlayerSuffix(splayer)
+											.replaceAll("(&([a-f0-9]))",
+													"\u00A7$2");
+									String group = RoyalChat.permission
+											.getPrimaryGroup(splayer)
+											.replaceAll("(&([a-f0-9]))",
+													"\u00A7$2");
+									String name = splayer.getName().replaceAll(
+											"(&([a-f0-9]))", "\u00A7$2");
+									String dispname = splayer.getDisplayName()
+											.replaceAll("(&([a-f0-9]))",
+													"\u00A7$2");
 
-					format = format.replace("{name}", name);
-					format = format.replace("{dispname}", dispname);
-					format = format.replace("{group}", group);
-					format = format.replace("{suffix}", suffix);
-					format = format.replace("{prefix}", prefix);
-					format = format.replace("{message}", message);
-					plugin.getServer().broadcastMessage(format);
-					return true;
+									format = format.replace("{name}", name);
+									format = format.replace("{dispname}",
+											dispname);
+									format = format.replace("{group}", group);
+									format = format.replace("{suffix}", suffix);
+									format = format.replace("{prefix}", prefix);
+									format = format.replace("{message}",
+											message);
+									plugin.getServer().broadcastMessage(format);
+									return true;
+								} else {
+									String format = plugin.formatMeBase;
+									String message = getFinalArg(args, 0);
+									Player splayer = (Player) sender; 
+									String name = splayer.getDisplayName();
+									format = " * " + name + " " + message;
+									plugin.getServer().broadcastMessage(format);
+									return true;
+								}
+							} else {
+								String format = plugin.formatMeBase;
+								String message = getFinalArg(args, 0);
+								Player splayer = (Player) sender; 
+								String name = splayer.getDisplayName();
+								format = " * " + name + " " + message;
+								plugin.getServer().broadcastMessage(format);
+								return true;
+							}
+						} else {
+							String format = plugin.formatMeBase;
+							String message = getFinalArg(args, 0);
+							Player splayer = (Player) sender; 
+							String name = splayer.getDisplayName();
+							format = " * " + name + " " + message;
+							plugin.getServer().broadcastMessage(format);
+							return true;
+						}
+					} else {
+						String format = plugin.formatMeBase;
+						String message = getFinalArg(args, 0);
+						Player splayer = (Player) sender; 
+						String name = splayer.getDisplayName();
+						format = " * " + name + " " + message;
+						plugin.getServer().broadcastMessage(format);
+						return true;
+					}
 				}
 			}
 		} else if (cmd.getName().equalsIgnoreCase("clear")) {

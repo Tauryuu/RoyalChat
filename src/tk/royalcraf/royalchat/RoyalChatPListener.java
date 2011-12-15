@@ -82,7 +82,7 @@ public class RoyalChatPListener extends PlayerListener {
 			message = message.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 
 		}
-		
+
 		if (message.startsWith("&") && message.length() == 2) {
 			message = message.replaceAll("(&([a-f0-9]))", "&f");
 		}
@@ -139,11 +139,17 @@ public class RoyalChatPListener extends PlayerListener {
 						event.setFormat(format);
 					}
 				} else {
-					String group = RoyalChat.permission.getPrimaryGroup(sender)
-							.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+					/*
+					 * String group =
+					 * RoyalChat.permission.getPrimaryGroup(sender)
+					 * .replaceAll("(&([a-f0-9]))", "\u00A7$2"); String name =
+					 * sender.getDisplayName().replaceAll( "(&([a-f0-9]))",
+					 * "\u00A7$2"); event.setFormat(group + " " + name +
+					 * message);
+					 */
 					String name = sender.getDisplayName().replaceAll(
 							"(&([a-f0-9]))", "\u00A7$2");
-					event.setFormat(group + " " + name + message);
+					event.setFormat(name + ChatColor.WHITE + ": " + message);
 				}
 			}
 		} else {
