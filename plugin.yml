@@ -1,7 +1,7 @@
 name: RoyalChat
 main: tk.royalcraf.royalchat.RoyalChat
-version: 0.0.2
-depend: [Vault]
+version: 0.0.3
+softdepend: [Vault]
 author: jkcclemens
 
 commands:
@@ -16,3 +16,21 @@ commands:
   clear:
     description: Clears the chat screen.
     usage: /<command>
+    
+permissions:
+  rchat.*:
+    description: Allows access to all RoyalChat commands
+    children:
+      rchat.rchat: true
+      rchat.me: true
+      rchat.clear: true
+  rchat.rchat:
+    description: Allows you to reload RoyalChat
+    default: op
+  rchat.me:
+    description: Allows you to emote.
+    default: op
+  rchat.clear:
+    description: Allows you to clear the chat screen.
+    default: op
+    
