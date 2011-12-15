@@ -98,8 +98,8 @@ public class RoyalChat extends JavaPlugin {
 
 		RoyalChatCommands cmdExec = new RoyalChatCommands(this);
 
-		getCommand("me").setExecutor(cmdExec);
 		getCommand("rchat").setExecutor(cmdExec);
+		getCommand("me").setExecutor(cmdExec);
 		getCommand("clear").setExecutor(cmdExec);
 
 		PluginManager pm = this.getServer().getPluginManager();
