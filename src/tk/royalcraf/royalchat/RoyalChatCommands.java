@@ -81,9 +81,12 @@ public class RoyalChatCommands implements CommandExecutor {
 				return true;
 			} else {
 				sender.sendMessage(ChatColor.AQUA + "RoyalChat"
-						+ ChatColor.GREEN + " version " + plugin.version + " reloaded.");
+						+ ChatColor.GREEN + " version " + plugin.version
+						+ " reloaded.");
 				plugin.reloadConfig();
 				plugin.formatBase = plugin.getConfig().getString("chat-format")
+						.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+				plugin.formatMeBase = plugin.getConfig().getString("me-format")
 						.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 				return true;
 			}
@@ -96,12 +99,29 @@ public class RoyalChatCommands implements CommandExecutor {
 				if (args.length < 1) {
 					return false;
 				} else {
-					String name = sender.getName();
+					String format = plugin.formatMeBase;
+					Player splayer = (Player) sender;
 					String message = getFinalArg(args, 0);
-					plugin.getServer().broadcastMessage(
-							ChatColor.LIGHT_PURPLE + "* " + ChatColor.AQUA
-									+ name + ChatColor.LIGHT_PURPLE + " "
-									+ message);
+
+					String prefix = RoyalChat.chat.getPlayerPrefix(splayer)
+							.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+					String suffix = RoyalChat.chat.getPlayerSuffix(splayer)
+							.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+					String group = RoyalChat.permission
+							.getPrimaryGroup(splayer).replaceAll(
+									"(&([a-f0-9]))", "\u00A7$2");
+					String name = splayer.getName().replaceAll("(&([a-f0-9]))",
+							"\u00A7$2");
+					String dispname = splayer.getDisplayName().replaceAll(
+							"(&([a-f0-9]))", "\u00A7$2");
+
+					format = format.replace("{name}", name);
+					format = format.replace("{dispname}", dispname);
+					format = format.replace("{group}", group);
+					format = format.replace("{suffix}", suffix);
+					format = format.replace("{prefix}", prefix);
+					format = format.replace("{message}", message);
+					plugin.getServer().broadcastMessage(format);
 					return true;
 				}
 			}

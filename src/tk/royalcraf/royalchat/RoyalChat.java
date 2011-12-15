@@ -30,7 +30,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class RoyalChat extends JavaPlugin {
-	
+
 	public String version = "0.0.2";
 
 	Logger log = Logger.getLogger("Minecraft");
@@ -63,11 +63,14 @@ public class RoyalChat extends JavaPlugin {
 	}
 
 	public String formatBase = null;
+	public String formatMeBase = null;
 
 	public void loadConfiguration() {
 		this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
 		formatBase = this.getConfig().getString("chat-format")
+				.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+		formatMeBase = this.getConfig().getString("me-format")
 				.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 		/*
 		 * File file = new File(this.getDataFolder() + "/"); boolean exists =

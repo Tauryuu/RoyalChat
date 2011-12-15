@@ -1,2 +1,3 @@
 chat-format: "{prefix}{group}{suffix} {dispname}&f: {message}"
+me-format: "&d * &b{dispname}&d {message}"
 first-word-capital: false
