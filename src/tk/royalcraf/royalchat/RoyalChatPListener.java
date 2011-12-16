@@ -12,6 +12,12 @@ public class RoyalChatPListener extends PlayerListener {
 
 	RoyalChat plugin;
 
+	private String prefix = null;
+	private String suffix = null;
+	private String group = null;
+	private String name = null;
+	private String dispname = null;
+
 	public RoyalChatPListener(RoyalChat plugin) {
 		this.plugin = plugin;
 	}
@@ -116,16 +122,41 @@ public class RoyalChatPListener extends PlayerListener {
 
 						String format = plugin.formatBase;
 
-						String prefix = RoyalChat.chat.getPlayerPrefix(sender)
-								.replaceAll("(&([a-f0-9]))", "\u00A7$2");
-						String suffix = RoyalChat.chat.getPlayerSuffix(sender)
-								.replaceAll("(&([a-f0-9]))", "\u00A7$2");
-						String group = RoyalChat.permission.getPrimaryGroup(
-								sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-						String name = sender.getName().replaceAll(
-								"(&([a-f0-9]))", "\u00A7$2");
-						String dispname = sender.getDisplayName().replaceAll(
-								"(&([a-f0-9]))", "\u00A7$2");
+						name = sender.getName().replaceAll("(&([a-f0-9]))",
+								"\u00A7$2");
+						try {
+							prefix = RoyalChat.chat.getPlayerPrefix(sender)
+									.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+						} catch (Exception e) {
+							prefix = "";
+							log.warning("[RoyalCommands] Could not grab prefix for user"
+									+ name);
+						}
+						try {
+							suffix = RoyalChat.chat.getPlayerSuffix(sender)
+									.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+						} catch (Exception e) {
+							suffix = "";
+							log.warning("[RoyalCommands] Could not grab suffix for user"
+									+ name);
+						}
+						try {
+							group = RoyalChat.permission
+									.getPrimaryGroup(sender).replaceAll(
+											"(&([a-f0-9]))", "\u00A7$2");
+						} catch (Exception e) {
+							group = "";
+							log.warning("[RoyalCommands] Could not grab group for user"
+									+ name);
+						}
+						try {
+							dispname = sender.getDisplayName().replaceAll(
+									"(&([a-f0-9]))", "\u00A7$2");
+						} catch (Exception e) {
+							dispname = "";
+							log.warning("[RoyalCommands] Could not grab dispname for user"
+									+ name);
+						}
 
 						format = format.replace("{name}", name);
 						format = format.replace("{dispname}", dispname);
@@ -134,8 +165,8 @@ public class RoyalChatPListener extends PlayerListener {
 						format = format.replace("{prefix}", prefix);
 						format = format.replace("{message}", message);
 
-						// event.setFormat(prefix + group + suffix + " " + name
-						// + ChatColor.WHITE + ": " + message);
+						event.setFormat(prefix + group + suffix + " " + name
+								+ ChatColor.WHITE + ": " + message);
 						event.setFormat(format);
 					}
 				} else {
@@ -149,14 +180,16 @@ public class RoyalChatPListener extends PlayerListener {
 					 */
 					String name = sender.getDisplayName().replaceAll(
 							"(&([a-f0-9]))", "\u00A7$2");
-					event.setFormat(name + ChatColor.WHITE + ": " + message);
+					event.setFormat("LEG: " + name + ChatColor.WHITE + ": "
+							+ message.replaceAll("(&([a-f0-9]))", "\u00A7$2"));
 				}
 			}
 		} else {
 			// If no permissions, just format chat to default
 			String name = sender.getDisplayName().replaceAll("(&([a-f0-9]))",
 					"\u00A7$2");
-			event.setFormat(name + ChatColor.WHITE + ": " + message);
+			event.setFormat("TREG " + name + ChatColor.WHITE + ": "
+					+ message.replaceAll("(&([a-f0-9]))", "\u00A7$2"));
 		}
 	}
 }
