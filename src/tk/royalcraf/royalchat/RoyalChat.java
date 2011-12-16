@@ -31,7 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class RoyalChat extends JavaPlugin {
 
-	public String version = "0.0.3";
+	public String version = "0.0.35";
 
 	Logger log = Logger.getLogger("Minecraft");
 
