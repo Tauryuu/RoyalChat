@@ -88,6 +88,13 @@ public class RoyalChatCommands implements CommandExecutor {
 						.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 				plugin.formatMeBase = plugin.getConfig().getString("me-format")
 						.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+				plugin.firstWordCapital = plugin.getConfig().getBoolean(
+						"first-word-capital");
+				plugin.highlightAtUser = plugin.getConfig().getBoolean(
+						"highlight-at-user");
+				plugin.highlightUrls = plugin.getConfig().getBoolean(
+						"highlight-urls");
+
 				return true;
 			}
 		} else if (cmd.getName().equalsIgnoreCase("me")) {
@@ -138,7 +145,7 @@ public class RoyalChatCommands implements CommandExecutor {
 								} else {
 									String format = plugin.formatMeBase;
 									String message = getFinalArg(args, 0);
-									Player splayer = (Player) sender; 
+									Player splayer = (Player) sender;
 									String name = splayer.getDisplayName();
 									format = " * " + name + " " + message;
 									plugin.getServer().broadcastMessage(format);
@@ -147,7 +154,7 @@ public class RoyalChatCommands implements CommandExecutor {
 							} else {
 								String format = plugin.formatMeBase;
 								String message = getFinalArg(args, 0);
-								Player splayer = (Player) sender; 
+								Player splayer = (Player) sender;
 								String name = splayer.getDisplayName();
 								format = " * " + name + " " + message;
 								plugin.getServer().broadcastMessage(format);
@@ -156,7 +163,7 @@ public class RoyalChatCommands implements CommandExecutor {
 						} else {
 							String format = plugin.formatMeBase;
 							String message = getFinalArg(args, 0);
-							Player splayer = (Player) sender; 
+							Player splayer = (Player) sender;
 							String name = splayer.getDisplayName();
 							format = " * " + name + " " + message;
 							plugin.getServer().broadcastMessage(format);
@@ -165,7 +172,7 @@ public class RoyalChatCommands implements CommandExecutor {
 					} else {
 						String format = plugin.formatMeBase;
 						String message = getFinalArg(args, 0);
-						Player splayer = (Player) sender; 
+						Player splayer = (Player) sender;
 						String name = splayer.getDisplayName();
 						format = " * " + name + " " + message;
 						plugin.getServer().broadcastMessage(format);

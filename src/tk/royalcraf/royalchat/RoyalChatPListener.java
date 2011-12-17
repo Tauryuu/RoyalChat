@@ -93,13 +93,26 @@ public class RoyalChatPListener extends PlayerListener {
 			message = message.replaceAll("(&([a-f0-9]))", "&f");
 		}
 
+		if (message.contains("://")) {
+			if (plugin.highlightUrls) {
+				message = message
+						.replaceAll(
+								"(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?",
+								ChatColor.getByCode(3) + "$0" + ChatColor.WHITE);
+			}
+		}
+
 		// Replace @<user> with ChatColor.AQUA + @<user>
-		message = message.replaceAll("@.[a-zA-Z0-9_-]*", ChatColor.AQUA + "$0"
-				+ ChatColor.WHITE);
+		if (message.contains("@")) {
+			if (plugin.highlightAtUser) {
+				message = message.replaceAll("@.[a-zA-Z0-9_-]*", ChatColor.AQUA
+						+ "$0" + ChatColor.WHITE);
+			}
+		}
 		if (message.contains("%")) {
 			message = message.replace("%", "%%");
 		}
-		if (plugin.getConfig().getBoolean("first-word-capital")) {
+		if (plugin.firstWordCapital) {
 			String firstLetter = message.substring(0, 1);
 			firstLetter = firstLetter.toUpperCase();
 			message = firstLetter + message.substring(1);

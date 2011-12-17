@@ -64,6 +64,9 @@ public class RoyalChat extends JavaPlugin {
 
 	public String formatBase = null;
 	public String formatMeBase = null;
+	public Boolean firstWordCapital = null;
+	public Boolean highlightAtUser = null;
+	public Boolean highlightUrls = null;
 
 	public void loadConfiguration() {
 		this.getConfig().options().copyDefaults(true);
@@ -72,6 +75,9 @@ public class RoyalChat extends JavaPlugin {
 				.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 		formatMeBase = this.getConfig().getString("me-format")
 				.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+		firstWordCapital = this.getConfig().getBoolean("first-word-capital");
+		highlightAtUser = this.getConfig().getBoolean("highlight-at-user");
+		highlightUrls = this.getConfig().getBoolean("highlight-urls");
 		/*
 		 * File file = new File(this.getDataFolder() + "/"); boolean exists =
 		 * file.exists(); if (!exists) { try { boolean success = new
