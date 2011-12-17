@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
+
+import com.palmergames.bukkit.towny.NotRegisteredException;
 import com.palmergames.bukkit.towny.TownyFormatter;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
@@ -24,6 +26,8 @@ public class RoyalChatPListener extends PlayerListener {
 	private String townysuffix = null;
 	private String townytitle = null;
 	private String townysurname = null;
+	private String townytown = null;
+	private String townynation = null;
 
 	public RoyalChatPListener(RoyalChat plugin) {
 		this.plugin = plugin;
@@ -195,6 +199,19 @@ public class RoyalChatPListener extends PlayerListener {
 									.getNamePostfix(resident);
 							townytitle = resident.getTitle();
 							townysurname = resident.getSurname();
+							try {
+								townytown = resident.getTown().getName();
+							} catch (NotRegisteredException e) {
+								// TODO Auto-generated catch block
+								townytown = "";
+							}
+							try {
+								townynation = resident.getTown().getNation()
+										.getName();
+							} catch (NotRegisteredException e) {
+								// TODO Auto-generated catch block
+								townynation = "";
+							}
 						}
 
 						format = format.replace("{name}", name);
@@ -207,6 +224,8 @@ public class RoyalChatPListener extends PlayerListener {
 						format = format.replace("{townysuffix}", townysuffix);
 						format = format.replace("{townytitle}", townytitle);
 						format = format.replace("{townysurname}", townysurname);
+						format = format.replace("{townytown}", townytown);
+						format = format.replace("{townynation}", townynation);
 
 						event.setFormat(format);
 					}
