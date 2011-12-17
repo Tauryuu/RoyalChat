@@ -23,6 +23,7 @@
 			<classpath>
 				<pathelement location="lib/bukkit-1.0.1-R2-SNAPSHOT.jar"/>
 				<pathelement location="lib/Vault.jar"/>
+				<pathelement location="lib/Towny.jar"/>
 			</classpath>
 		</javac>
 	</target>
