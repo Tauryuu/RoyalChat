@@ -7,6 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
+import com.palmergames.bukkit.towny.TownyFormatter;
+import com.palmergames.bukkit.towny.object.Resident;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class RoyalChatPListener extends PlayerListener {
 
@@ -17,9 +20,22 @@ public class RoyalChatPListener extends PlayerListener {
 	private String group = null;
 	private String name = null;
 	private String dispname = null;
+	private String townyprefix = null;
+	private String townysuffix = null;
+	private String townytitle = null;
+	private String townysurname = null;
 
 	public RoyalChatPListener(RoyalChat plugin) {
 		this.plugin = plugin;
+	}
+
+	private Resident getResident(Player player) {
+		try {
+			return TownyUniverse.plugin.getTownyUniverse().getResident(
+					player.getName());
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 
 	// Init logger
@@ -171,15 +187,27 @@ public class RoyalChatPListener extends PlayerListener {
 									+ name);
 						}
 
+						if (format.contains("{towny")) {
+							Resident resident = getResident(sender);
+							townyprefix = TownyFormatter
+									.getNamePrefix(resident);
+							townysuffix = TownyFormatter
+									.getNamePostfix(resident);
+							townytitle = resident.getTitle();
+							townysurname = resident.getSurname();
+						}
+
 						format = format.replace("{name}", name);
 						format = format.replace("{dispname}", dispname);
 						format = format.replace("{group}", group);
 						format = format.replace("{suffix}", suffix);
 						format = format.replace("{prefix}", prefix);
 						format = format.replace("{message}", message);
+						format = format.replace("{townyprefix}", townyprefix);
+						format = format.replace("{townysuffix}", townysuffix);
+						format = format.replace("{townytitle}", townytitle);
+						format = format.replace("{townysurname}", townysurname);
 
-						event.setFormat(prefix + group + suffix + " " + name
-								+ ChatColor.WHITE + ": " + message);
 						event.setFormat(format);
 					}
 				} else {
@@ -193,7 +221,7 @@ public class RoyalChatPListener extends PlayerListener {
 					 */
 					String name = sender.getDisplayName().replaceAll(
 							"(&([a-f0-9]))", "\u00A7$2");
-					event.setFormat("LEG: " + name + ChatColor.WHITE + ": "
+					event.setFormat(name + ChatColor.WHITE + ": "
 							+ message.replaceAll("(&([a-f0-9]))", "\u00A7$2"));
 				}
 			}
@@ -201,7 +229,7 @@ public class RoyalChatPListener extends PlayerListener {
 			// If no permissions, just format chat to default
 			String name = sender.getDisplayName().replaceAll("(&([a-f0-9]))",
 					"\u00A7$2");
-			event.setFormat("TREG " + name + ChatColor.WHITE + ": "
+			event.setFormat(name + ChatColor.WHITE + ": "
 					+ message.replaceAll("(&([a-f0-9]))", "\u00A7$2"));
 		}
 	}
