@@ -13,8 +13,9 @@ commands:
     description: Allows you to emote.
     usage: /<command> <status>
     
-  clear:
+  rclear:
     description: Clears the chat screen.
+    aliases: [clear, clearscreen, cls]
     usage: /<command>
     
 permissions:
