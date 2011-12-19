@@ -180,8 +180,8 @@ public class RoyalChatCommands implements CommandExecutor {
 					}
 				}
 			}
-		} else if (cmd.getName().equalsIgnoreCase("clear")) {
-			if (!isAuthorized(sender, "rchat.clear")) {
+		} else if (cmd.getName().equalsIgnoreCase("rclear")) {
+			if (!isAuthorized(sender, "rchat.rclear")) {
 				sender.sendMessage(ChatColor.RED
 						+ "You don't have permission for that!");
 				return true;
