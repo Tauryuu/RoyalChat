@@ -18,7 +18,7 @@ Changes pushed to GitHub will be auto-compiled on [Jenkins](http://royalcraftci.
 
 ### About the developer
 
-My name is Kyle Clemens. I run a cracked [Minecraft server](http://royalcraf.tk) at royalcraf.tk, write (currently) three different plugins: RoyalCommands, RoyalChat, and RoyalMisc.
+My name is Kyle Clemens. I run a cracked [Minecraft server](http://royalcraf.tk) at royalcraf.tk, write (currently) four different plugins: RoyalCommands, RoyalChat, RoyalMessages, and RoyalMisc.
 RoyalMisc is only available on RoyalCraft.
 
 I currently attend school and hope to continue learning Java to better this plugin.
