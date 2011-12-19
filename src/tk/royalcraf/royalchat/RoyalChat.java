@@ -96,7 +96,7 @@ public class RoyalChat extends JavaPlugin {
 		loadConfiguration();
 
 		if (!this.setupPermissions() || !this.setupChat()) {
-			log.info("[RoyalChat] No permissions plugin found! Cannot set group names! Will use default chat formatting.");
+			log.info("[RoyalChat] No permissions plugin found! Cannot set group names or prefixes & suffixes! Will use default chat formatting.");
 		}
 
 		RoyalChatCommands cmdExec = new RoyalChatCommands(this);
