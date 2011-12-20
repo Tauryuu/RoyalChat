@@ -128,10 +128,12 @@ public class RoyalChatPListener extends PlayerListener {
 		 * ChatColor.WHITE); }
 		 */
 
-		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-			if (message.contains(p.getName())) {
-				message = message.replace(p.getName(),
-						ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE);
+		if (plugin.highlightAtUser) {
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				if (message.contains(p.getName())) {
+					message = message.replace(p.getName(), ChatColor.AQUA + "@"
+							+ p.getName() + ChatColor.WHITE);
+				}
 			}
 		}
 
