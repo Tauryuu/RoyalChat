@@ -122,12 +122,20 @@ public class RoyalChatPListener extends PlayerListener {
 		}
 
 		// Replace @<user> with ChatColor.AQUA + @<user>
+		/*
 		if (message.contains("@")) {
 			if (plugin.highlightAtUser) {
 				message = message.replaceAll("@.[a-zA-Z0-9_-]*", ChatColor.AQUA
 						+ "$0" + ChatColor.WHITE);
 			}
-		}
+			*/
+		
+		
+		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+			 if(message.contains(p.getName())) {
+			 message = message.replace(p.getName(), ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE);
+			 }
+		
 		if (message.contains("%")) {
 			message = message.replace("%", "%%");
 		}
