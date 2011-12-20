@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
 
-import com.palmergames.bukkit.towny.NotRegisteredException;
 import com.palmergames.bukkit.towny.TownyFormatter;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
@@ -201,14 +200,14 @@ public class RoyalChatPListener extends PlayerListener {
 							townysurname = resident.getSurname();
 							try {
 								townytown = resident.getTown().getName();
-							} catch (NotRegisteredException e) {
+							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								townytown = "";
 							}
 							try {
 								townynation = resident.getTown().getNation()
 										.getName();
-							} catch (NotRegisteredException e) {
+							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								townynation = "";
 							}
