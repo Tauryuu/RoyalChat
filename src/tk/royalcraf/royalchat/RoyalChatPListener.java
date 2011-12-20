@@ -201,14 +201,12 @@ public class RoyalChatPListener extends PlayerListener {
 							try {
 								townytown = resident.getTown().getName();
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
 								townytown = "";
 							}
 							try {
 								townynation = resident.getTown().getNation()
 										.getName();
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
 								townynation = "";
 							}
 						}
@@ -219,24 +217,22 @@ public class RoyalChatPListener extends PlayerListener {
 						format = format.replace("{suffix}", suffix);
 						format = format.replace("{prefix}", prefix);
 						format = format.replace("{message}", message);
-						format = format.replace("{townyprefix}", townyprefix);
-						format = format.replace("{townysuffix}", townysuffix);
-						format = format.replace("{townytitle}", townytitle);
-						format = format.replace("{townysurname}", townysurname);
-						format = format.replace("{townytown}", townytown);
-						format = format.replace("{townynation}", townynation);
+						if (format.contains("{towny")) {
+							format = format.replace("{townyprefix}",
+									townyprefix);
+							format = format.replace("{townysuffix}",
+									townysuffix);
+							format = format.replace("{townytitle}", townytitle);
+							format = format.replace("{townysurname}",
+									townysurname);
+							format = format.replace("{townytown}", townytown);
+							format = format.replace("{townynation}",
+									townynation);
+						}
 
 						event.setFormat(format);
 					}
 				} else {
-					/*
-					 * String group =
-					 * RoyalChat.permission.getPrimaryGroup(sender)
-					 * .replaceAll("(&([a-f0-9]))", "\u00A7$2"); String name =
-					 * sender.getDisplayName().replaceAll( "(&([a-f0-9]))",
-					 * "\u00A7$2"); event.setFormat(group + " " + name +
-					 * message);
-					 */
 					String name = sender.getDisplayName().replaceAll(
 							"(&([a-f0-9]))", "\u00A7$2");
 					event.setFormat(name + ChatColor.WHITE + ": "
