@@ -1,6 +1,6 @@
 name: RoyalChat
 main: tk.royalcraf.royalchat.RoyalChat
-version: 0.0.4
+version: 0.0.45
 softdepend: [Vault]
 author: jkcclemens
 
