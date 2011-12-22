@@ -100,6 +100,7 @@ public class RoyalChatPListener extends PlayerListener {
 		if (!isAuthorized(sender, "rchat.color")) {
 
 			// If not, remove color
+			message = message.replace("&&", "");
 			message = message.replaceAll("(&([a-f0-9]))", "");
 
 		} else if (isAuthorized(sender, "rchat.color")) {
