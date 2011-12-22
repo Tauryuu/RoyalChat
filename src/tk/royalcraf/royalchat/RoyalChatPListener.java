@@ -3,6 +3,7 @@ package tk.royalcraf.royalchat;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -133,6 +134,14 @@ public class RoyalChatPListener extends PlayerListener {
 				if (message.contains(p.getName())) {
 					message = message.replace(p.getName(), ChatColor.AQUA + "@"
 							+ p.getName() + ChatColor.WHITE);
+					if (plugin.smokeAtUser) {
+						for (int i = 0; i < 8; i++) {
+							if (i != 4) {
+								p.getWorld().playEffect(p.getLocation(),
+										Effect.SMOKE, i);
+							}
+						}
+					}
 				}
 			}
 		}
