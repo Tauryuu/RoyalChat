@@ -67,6 +67,7 @@ public class RoyalChat extends JavaPlugin {
 	public Boolean firstWordCapital = null;
 	public Boolean highlightAtUser = null;
 	public Boolean highlightUrls = null;
+	public Boolean smokeAtUser = null;
 
 	public void loadConfiguration() {
 		this.getConfig().options().copyDefaults(true);
@@ -78,6 +79,7 @@ public class RoyalChat extends JavaPlugin {
 		firstWordCapital = this.getConfig().getBoolean("first-word-capital");
 		highlightAtUser = this.getConfig().getBoolean("highlight-at-user");
 		highlightUrls = this.getConfig().getBoolean("highlight-urls");
+		smokeAtUser = this.getConfig().getBoolean("smoke-at-user");
 		/*
 		 * File file = new File(this.getDataFolder() + "/"); boolean exists =
 		 * file.exists(); if (!exists) { try { boolean success = new
