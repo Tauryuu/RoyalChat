@@ -92,6 +92,8 @@ public class RoyalChatCommands implements CommandExecutor {
 						"first-word-capital");
 				plugin.highlightAtUser = plugin.getConfig().getBoolean(
 						"highlight-at-user");
+				plugin.smokeAtUser = plugin.getConfig().getBoolean(
+						"smoke-at-user");
 				plugin.highlightUrls = plugin.getConfig().getBoolean(
 						"highlight-urls");
 
