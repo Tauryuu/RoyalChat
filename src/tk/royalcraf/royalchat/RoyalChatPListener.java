@@ -22,6 +22,7 @@ public class RoyalChatPListener extends PlayerListener {
 	private String group = null;
 	private String name = null;
 	private String dispname = null;
+	private String world = null;
 	private String townyprefix = null;
 	private String townysuffix = null;
 	private String townytitle = null;
@@ -229,12 +230,15 @@ public class RoyalChatPListener extends PlayerListener {
 								townynation = "";
 							}
 						}
+						
+						world = sender.getWorld().getName();
 
 						format = format.replace("{name}", name);
 						format = format.replace("{dispname}", dispname);
 						format = format.replace("{group}", group);
 						format = format.replace("{suffix}", suffix);
 						format = format.replace("{prefix}", prefix);
+						format = format.replace("{world}", world);
 						format = format.replace("{message}", message);
 						if (format.contains("{towny")) {
 							format = format.replace("{townyprefix}",
