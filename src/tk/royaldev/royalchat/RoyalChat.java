@@ -30,7 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class RoyalChat extends JavaPlugin {
 
-	public String version = "0.0.45";
+	public String version;
 
 	Logger log = Logger.getLogger("Minecraft");
 
@@ -91,6 +91,8 @@ public class RoyalChat extends JavaPlugin {
 	}
 
     public void onEnable() {
+
+        version = this.getDescription().getVersion();
 
 		loadConfiguration();
 
