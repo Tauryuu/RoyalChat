@@ -1,8 +1,5 @@
-package tk.royalcraf.royalchat;
+package tk.royaldev.royalchat;
 
-import java.util.logging.Logger;
-
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,47 +14,11 @@ public class RoyalChatCommands implements CommandExecutor {
 		this.plugin = plugin;
 	}
 
-	Logger log = Logger.getLogger("Minecraft");
-
-	public boolean isAuthorized(final Player player, final String node) {
-		if (player.isOp()) {
-			return true;
-		} else if (plugin.setupPermissions()) {
-			if (RoyalChat.permission.has(player, node)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
+    public boolean isAuthorized(final CommandSender player, final String node) {
+        return player.isOp() || plugin.setupPermissions() && RoyalChat.permission.has((Player) player, node);
 	}
 
-	public boolean isAuthorized(final CommandSender player, final String node) {
-		if (player.isOp()) {
-			return true;
-		} else if (plugin.setupPermissions()) {
-			if (RoyalChat.permission.has((Player) player, node)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-
-	public static boolean getOnline(final String person) {
-		Player player = Bukkit.getServer().getPlayer(person);
-
-		if (player == null) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	// getFinalArg taken from EssentialsCommand.java - Essentials by
+    // getFinalArg taken from EssentialsCommand.java - Essentials by
 	// EssentialsTeam
 	public static String getFinalArg(final String[] args, final int start) {
 		final StringBuilder bldr = new StringBuilder();
@@ -140,7 +101,7 @@ public class RoyalChatCommands implements CommandExecutor {
 								plugin.getServer().broadcastMessage(format);
 								return true;
 							} else {
-								String format = plugin.formatMeBase;
+								String format;
 								String message = getFinalArg(args, 0);
 								Player splayer = (Player) sender;
 								String name = splayer.getDisplayName();
@@ -149,7 +110,7 @@ public class RoyalChatCommands implements CommandExecutor {
 								return true;
 							}
 						} else {
-							String format = plugin.formatMeBase;
+							String format;
 							String message = getFinalArg(args, 0);
 							Player splayer = (Player) sender;
 							String name = splayer.getDisplayName();
@@ -158,7 +119,7 @@ public class RoyalChatCommands implements CommandExecutor {
 							return true;
 						}
 					} else {
-						String format = plugin.formatMeBase;
+						String format;
 						String message = getFinalArg(args, 0);
 						Player splayer = (Player) sender;
 						String name = splayer.getDisplayName();
@@ -167,7 +128,7 @@ public class RoyalChatCommands implements CommandExecutor {
 						return true;
 					}
 				} else {
-					String format = plugin.formatMeBase;
+					String format;
 					String message = getFinalArg(args, 0);
 					Player splayer = (Player) sender;
 					String name = splayer.getDisplayName();

@@ -1,10 +1,9 @@
-package tk.royalcraf.royalchat;
+package tk.royaldev.royalchat;
 
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -17,13 +16,7 @@ public class RoyalChatPListener extends PlayerListener {
 
 	RoyalChat plugin;
 
-	private String prefix = null;
-	private String suffix = null;
-	private String group = null;
-	private String name = null;
-	private String dispname = null;
-	private String world = null;
-	private String townyprefix = null;
+    private String townyprefix = null;
 	private String townysuffix = null;
 	private String townytitle = null;
 	private String townysurname = null;
@@ -48,48 +41,12 @@ public class RoyalChatPListener extends PlayerListener {
 
 	// Permissions tester for player object
 	public boolean isAuthorized(final Player player, final String node) {
-		if (player.isOp()) {
-			return true;
-		} else if (plugin.setupPermissions()) {
-			if (RoyalChat.permission.has(player, node)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
+        return player.isOp() || plugin.setupPermissions() && RoyalChat.permission.has(player, node);
 	}
 
-	// Permissions tester for CommandSender object
-	public boolean isAuthorized(final CommandSender player, final String node) {
-		if (player.isOp()) {
-			return true;
-		} else if (plugin.setupPermissions()) {
-			if (RoyalChat.permission.has((Player) player, node)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-
-	// Test is player is online method
-	public static boolean getOnline(final String person) {
-		Player player = Bukkit.getServer().getPlayer(person);
-
-		if (player == null) {
-			return false;
-		} else {
-			return true;
-		}
-
-	}
-
-	// The chat processor
-	public void onPlayerChat(PlayerChatEvent event) {
+    // The chat processor
+	@Override
+    public void onPlayerChat(PlayerChatEvent event) {
 
 		// Get sent message
 		String message = event.getMessage();
@@ -119,32 +76,8 @@ public class RoyalChatPListener extends PlayerListener {
 			if (plugin.highlightUrls) {
 				message = message
 						.replaceAll(
-								"(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?",
+								"(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-@?^=%&amp;/~\\+#])?",
 								ChatColor.getByCode(3) + "$0" + ChatColor.WHITE);
-			}
-		}
-
-		// Replace @<user> with ChatColor.AQUA + @<user>
-		/*
-		 * if (message.contains("@")) { if (plugin.highlightAtUser) { message =
-		 * message.replaceAll("@.[a-zA-Z0-9_-]*", ChatColor.AQUA + "$0" +
-		 * ChatColor.WHITE); }
-		 */
-
-		if (plugin.highlightAtUser) {
-			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-				if (message.contains(p.getName())) {
-					message = message.replace(p.getName(), ChatColor.AQUA + "@"
-							+ p.getName() + ChatColor.WHITE);
-					if (plugin.smokeAtUser) {
-						for (int i = 0; i < 8; i++) {
-							if (i != 4) {
-								p.getWorld().playEffect(p.getLocation(),
-										Effect.SMOKE, i);
-							}
-						}
-					}
-				}
 			}
 		}
 
@@ -157,26 +90,35 @@ public class RoyalChatPListener extends PlayerListener {
 			message = firstLetter + message.substring(1);
 		}
 
+        if (plugin.highlightAtUser) {
+            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                if (message.contains(p.getName())) {
+                    message = message.replace(p.getName(), ChatColor.AQUA + "@"
+                            + p.getName() + ChatColor.WHITE);
+                    if (plugin.smokeAtUser) {
+                        for (int i = 0; i < 8; i++) {
+                            if (i != 4) {
+                                p.getWorld().playEffect(p.getLocation(),
+                                        Effect.SMOKE, i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 		// If you have permissions, set chat format
 		if (plugin.setupPermissions()) {
 			if (RoyalChat.permission.isEnabled()) {
 				if (plugin.setupChat()) {
 					if (RoyalChat.chat.isEnabled()) {
-						/*
-						 * {name} - sender.getName() {dispname} -
-						 * sender.getDisplayName() {group} -
-						 * RoyalChat.permission.getPrimaryGroup(sender) {prefix}
-						 * - RoyalChat.permission.getPlayerPrefix(sender)
-						 * {suffix} -
-						 * RoyalChat.permission.getPlayerSuffix(sender)
-						 * {message} - message
-						 */
 
 						String format = plugin.formatBase;
 
-						name = sender.getName().replaceAll("(&([a-f0-9]))",
-								"\u00A7$2");
-						try {
+                        String name = sender.getName().replaceAll("(&([a-f0-9]))",
+                                "\u00A7$2");
+                        String prefix;
+                        try {
 							prefix = RoyalChat.chat.getPlayerPrefix(sender)
 									.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 						} catch (Exception e) {
@@ -184,7 +126,8 @@ public class RoyalChatPListener extends PlayerListener {
 							log.warning("[RoyalCommands] Could not grab prefix for user"
 									+ name);
 						}
-						try {
+                        String suffix;
+                        try {
 							suffix = RoyalChat.chat.getPlayerSuffix(sender)
 									.replaceAll("(&([a-f0-9]))", "\u00A7$2");
 						} catch (Exception e) {
@@ -192,7 +135,8 @@ public class RoyalChatPListener extends PlayerListener {
 							log.warning("[RoyalCommands] Could not grab suffix for user"
 									+ name);
 						}
-						try {
+                        String group;
+                        try {
 							group = RoyalChat.permission
 									.getPrimaryGroup(sender).replaceAll(
 											"(&([a-f0-9]))", "\u00A7$2");
@@ -201,7 +145,8 @@ public class RoyalChatPListener extends PlayerListener {
 							log.warning("[RoyalCommands] Could not grab group for user"
 									+ name);
 						}
-						try {
+                        String dispname;
+                        try {
 							dispname = sender.getDisplayName().replaceAll(
 									"(&([a-f0-9]))", "\u00A7$2");
 						} catch (Exception e) {
@@ -230,8 +175,8 @@ public class RoyalChatPListener extends PlayerListener {
 								townynation = "";
 							}
 						}
-						
-						world = sender.getWorld().getName();
+
+                        String world = sender.getWorld().getName();
 
 						format = format.replace("{name}", name);
 						format = format.replace("{dispname}", dispname);

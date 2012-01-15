@@ -1,4 +1,4 @@
-package tk.royalcraf.royalchat;
+package tk.royaldev.royalchat;
 
 /*
  This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -91,9 +90,7 @@ public class RoyalChat extends JavaPlugin {
 		 */
 	}
 
-	protected FileConfiguration config;
-
-	public void onEnable() {
+    public void onEnable() {
 
 		loadConfiguration();
 
