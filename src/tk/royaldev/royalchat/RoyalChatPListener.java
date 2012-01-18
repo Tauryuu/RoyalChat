@@ -7,14 +7,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerListener;
 
 import com.palmergames.bukkit.towny.TownyFormatter;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
 
-public class RoyalChatPListener extends PlayerListener {
+public class RoyalChatPListener implements Listener {
 
     RoyalChat plugin;
 
@@ -47,7 +49,7 @@ public class RoyalChatPListener extends PlayerListener {
     }
 
     // The chat processor
-    @Override
+    @EventHandler(event = PlayerChatEvent.class, priority = EventPriority.NORMAL)
     public void onPlayerChat(PlayerChatEvent event) {
 
         // Get sent message
@@ -81,7 +83,7 @@ public class RoyalChatPListener extends PlayerListener {
                 message = message
                         .replaceAll(
                                 "(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-@?^=%&amp;/~\\+#])?",
-                                ChatColor.getByCode(3) + "$0" + ChatColor.WHITE);
+                                ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
             }
         }
 

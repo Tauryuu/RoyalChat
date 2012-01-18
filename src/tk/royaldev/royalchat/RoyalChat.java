@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
-import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -108,8 +107,7 @@ public class RoyalChat extends JavaPlugin {
 
 		PluginManager pm = this.getServer().getPluginManager();
 
-		pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener,
-				Event.Priority.Normal, this);
+        pm.registerEvents(playerListener, this);
 
 		log.info("[RoyalChat] Version " + this.version + " initiated.");
 
