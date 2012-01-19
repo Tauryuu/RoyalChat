@@ -1,8 +1,7 @@
 package tk.royaldev.royalchat;
 
-import java.util.logging.Logger;
-
-import org.bukkit.Bukkit;
+import com.palmergames.bukkit.towny.TownyFormatter;
+import com.palmergames.bukkit.towny.object.Resident;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -12,13 +11,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
-import com.palmergames.bukkit.towny.TownyFormatter;
-import com.palmergames.bukkit.towny.object.Resident;
-import com.palmergames.bukkit.towny.object.TownyUniverse;
-
 public class RoyalChatPListener implements Listener {
 
     RoyalChat plugin;
+
+    public RoyalChatPListener(RoyalChat instance) {
+        this.plugin = instance;
+    }
 
     private String townyprefix = null;
     private String townysuffix = null;
@@ -27,29 +26,13 @@ public class RoyalChatPListener implements Listener {
     private String townytown = null;
     private String townynation = null;
 
-    public RoyalChatPListener(RoyalChat plugin) {
-        this.plugin = plugin;
-    }
-
-    private Resident getResident(Player player) {
-        try {
-            return TownyUniverse.plugin.getTownyUniverse().getResident(
-                    player.getName());
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    // Init logger
-    Logger log = Logger.getLogger("Minecraft");
-
     // Permissions tester for player object
     public boolean isAuthorized(final Player player, final String node) {
         return player.isOp() || plugin.setupPermissions() && RoyalChat.permission.has(player, node);
     }
 
     // The chat processor
-    @EventHandler(event = PlayerChatEvent.class, priority = EventPriority.NORMAL)
+    @EventHandler(event = PlayerChatEvent.class, priority = EventPriority.LOW)
     public void onPlayerChat(PlayerChatEvent event) {
 
         // Get sent message
@@ -80,10 +63,7 @@ public class RoyalChatPListener implements Listener {
 
         if (message.contains("://")) {
             if (plugin.highlightUrls) {
-                message = message
-                        .replaceAll(
-                                "(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-@?^=%&amp;/~\\+#])?",
-                                ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
+                message = message.replaceAll("(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-@?^=%&amp;/~\\+#])?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
             }
         }
 
@@ -92,7 +72,7 @@ public class RoyalChatPListener implements Listener {
         }
 
         if (plugin.highlightAtUser) {
-            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            for (Player p : plugin.getServer().getOnlinePlayers()) {
                 if (message.contains(p.getName())) {
                     message = message.replace(p.getName(), ChatColor.AQUA + "@"
                             + p.getName() + ChatColor.WHITE);
@@ -106,6 +86,7 @@ public class RoyalChatPListener implements Listener {
                                         Effect.SMOKE, i);
                             }
                         }
+                        p.getWorld().playEffect(pLoc, Effect.DOOR_TOGGLE, 20);
                     }
                 }
             }
@@ -118,111 +99,80 @@ public class RoyalChatPListener implements Listener {
         }
 
         // If you have permissions, set chat format
-        if (plugin.setupPermissions()) {
-            if (RoyalChat.permission.isEnabled()) {
-                if (plugin.setupChat()) {
-                    if (RoyalChat.chat.isEnabled()) {
 
-                        String format = plugin.formatBase;
+        String format = plugin.formatBase;
 
-                        String name = sender.getName().replaceAll("(&([a-f0-9]))",
-                                "\u00A7$2");
-                        String prefix;
-                        try {
-                            prefix = RoyalChat.chat.getPlayerPrefix(sender)
-                                    .replaceAll("(&([a-f0-9]))", "\u00A7$2");
-                        } catch (Exception e) {
-                            prefix = "";
-                            log.warning("[RoyalCommands] Could not grab prefix for user"
-                                    + name);
-                        }
-                        String suffix;
-                        try {
-                            suffix = RoyalChat.chat.getPlayerSuffix(sender)
-                                    .replaceAll("(&([a-f0-9]))", "\u00A7$2");
-                        } catch (Exception e) {
-                            suffix = "";
-                            log.warning("[RoyalCommands] Could not grab suffix for user"
-                                    + name);
-                        }
-                        String group;
-                        try {
-                            group = RoyalChat.permission
-                                    .getPrimaryGroup(sender).replaceAll(
-                                            "(&([a-f0-9]))", "\u00A7$2");
-                        } catch (Exception e) {
-                            group = "";
-                            log.warning("[RoyalCommands] Could not grab group for user"
-                                    + name);
-                        }
-                        String dispname;
-                        try {
-                            dispname = sender.getDisplayName().replaceAll(
-                                    "(&([a-f0-9]))", "\u00A7$2");
-                        } catch (Exception e) {
-                            dispname = "";
-                            log.warning("[RoyalCommands] Could not grab dispname for user"
-                                    + name);
-                        }
-
-                        if (format.contains("{towny")) {
-                            Resident resident = getResident(sender);
-                            townyprefix = TownyFormatter
-                                    .getNamePrefix(resident);
-                            townysuffix = TownyFormatter
-                                    .getNamePostfix(resident);
-                            townytitle = resident.getTitle();
-                            townysurname = resident.getSurname();
-                            try {
-                                townytown = resident.getTown().getName();
-                            } catch (Exception e) {
-                                townytown = "";
-                            }
-                            try {
-                                townynation = resident.getTown().getNation()
-                                        .getName();
-                            } catch (Exception e) {
-                                townynation = "";
-                            }
-                        }
-
-                        String world = sender.getWorld().getName();
-
-                        format = format.replace("{name}", name);
-                        format = format.replace("{dispname}", dispname);
-                        format = format.replace("{group}", group);
-                        format = format.replace("{suffix}", suffix);
-                        format = format.replace("{prefix}", prefix);
-                        format = format.replace("{world}", world);
-                        format = format.replace("{message}", message);
-                        if (format.contains("{towny")) {
-                            format = format.replace("{townyprefix}",
-                                    townyprefix);
-                            format = format.replace("{townysuffix}",
-                                    townysuffix);
-                            format = format.replace("{townytitle}", townytitle);
-                            format = format.replace("{townysurname}",
-                                    townysurname);
-                            format = format.replace("{townytown}", townytown);
-                            format = format.replace("{townynation}",
-                                    townynation);
-                        }
-
-                        event.setFormat(format);
-                    }
-                } else {
-                    String name = sender.getDisplayName().replaceAll(
-                            "(&([a-f0-9]))", "\u00A7$2");
-                    event.setFormat(name + ChatColor.WHITE + ": "
-                            + message.replaceAll("(&([a-f0-9]))", "\u00A7$2"));
-                }
-            }
-        } else {
-            // If no permissions, just format chat to default
-            String name = sender.getDisplayName().replaceAll("(&([a-f0-9]))",
-                    "\u00A7$2");
-            event.setFormat(name + ChatColor.WHITE + ": "
-                    + message.replaceAll("(&([a-f0-9]))", "\u00A7$2"));
+        String name = sender.getName().replaceAll("(&([a-f0-9]))",
+                "\u00A7$2");
+        String prefix;
+        try {
+            prefix = RoyalChat.chat.getPlayerPrefix(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
+        } catch (Exception e) {
+            prefix = "";
         }
+        String suffix;
+        try {
+            suffix = RoyalChat.chat.getPlayerSuffix(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
+        } catch (Exception e) {
+            suffix = "";
+        }
+        String group;
+        try {
+            group = RoyalChat.permission.getPrimaryGroup(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
+        } catch (Exception e) {
+            group = "";
+        }
+        String dispname;
+        try {
+            dispname = sender.getDisplayName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
+        } catch (Exception e) {
+            dispname = "";
+        }
+
+        if (format.contains("{towny")) {
+            Resident resident = TownyUtils.getResident(sender);
+            if (resident != null) {
+                townyprefix = TownyFormatter.getNamePrefix(resident);
+                townysuffix = TownyFormatter.getNamePostfix(resident);
+                townytitle = resident.getTitle();
+                townysurname = resident.getSurname();
+                try {
+                    townytown = resident.getTown().getName();
+                } catch (Exception e) {
+                    townytown = "";
+                }
+                try {
+                    townynation = resident.getTown().getNation().getName();
+                } catch (Exception e) {
+                    townynation = "";
+                }
+            } else {
+                townyprefix = "";
+                townysuffix = "";
+                townytitle = "";
+                townysurname = "";
+                townytown = "";
+                townynation = "";
+            }
+        }
+
+        String world = sender.getWorld().getName();
+
+        format = format.replace("{name}", name);
+        format = format.replace("{dispname}", dispname);
+        format = format.replace("{group}", group);
+        format = format.replace("{suffix}", suffix);
+        format = format.replace("{prefix}", prefix);
+        format = format.replace("{world}", world);
+        format = format.replace("{message}", message);
+        if (format.contains("{towny")) {
+            format = format.replace("{townyprefix}", townyprefix);
+            format = format.replace("{townysuffix}", townysuffix);
+            format = format.replace("{townytitle}", townytitle);
+            format = format.replace("{townysurname}", townysurname);
+            format = format.replace("{townytown}", townytown);
+            format = format.replace("{townynation}", townynation);
+        }
+        event.setFormat(format);
     }
 }
