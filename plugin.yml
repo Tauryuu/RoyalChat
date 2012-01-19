@@ -1,7 +1,7 @@
 name: RoyalChat
 main: tk.royaldev.royalchat.RoyalChat
 version: 0.0.5
-softdepend: [Vault]
+softdepend: [Vault, Towny]
 author: jkcclemens
 
 commands:
