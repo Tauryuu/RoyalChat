@@ -16,107 +16,86 @@ package tk.royaldev.royalchat;
 
  This plugin was written by jkcclemens <jkc.clemens@gmail.com>.
  If forked and not credited, alert him.
- */
-
-import java.util.logging.Logger;
+*/
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Logger;
+
 public class RoyalChat extends JavaPlugin {
 
-	public String version;
+    public String version;
 
-	Logger log = Logger.getLogger("Minecraft");
+    Logger log = Logger.getLogger("Minecraft");
 
-	public static Permission permission = null;
-	public static Chat chat = null;
+    public static Permission permission = null;
+    public static Chat chat = null;
 
-	private final RoyalChatPListener playerListener = new RoyalChatPListener(
-			this);
+    private final RoyalChatPListener playerListener = new RoyalChatPListener(
+            this);
 
-	public Boolean setupPermissions() {
-		RegisteredServiceProvider<Permission> permissionProvider = getServer()
-				.getServicesManager().getRegistration(
-						net.milkbowl.vault.permission.Permission.class);
-		if (permissionProvider != null) {
-			permission = permissionProvider.getProvider();
-		}
-		return (permission != null);
-	}
+    public Boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+        if (permissionProvider != null) {
+            permission = permissionProvider.getProvider();
+        }
+        return (permission != null);
+    }
 
-	public Boolean setupChat() {
-		RegisteredServiceProvider<Chat> chatProvider = getServer()
-				.getServicesManager().getRegistration(
-						net.milkbowl.vault.chat.Chat.class);
-		if (chatProvider != null) {
-			chat = chatProvider.getProvider();
-		}
+    public Boolean setupChat() {
+        RegisteredServiceProvider<Chat> chatProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
+        if (chatProvider != null) {
+            chat = chatProvider.getProvider();
+        }
+        return (chat != null);
+    }
 
-		return (chat != null);
-	}
+    public String formatBase = null;
+    public String formatMeBase = null;
+    public Boolean firstWordCapital = null;
+    public Boolean highlightAtUser = null;
+    public Boolean highlightUrls = null;
+    public Boolean smokeAtUser = null;
 
-	public String formatBase = null;
-	public String formatMeBase = null;
-	public Boolean firstWordCapital = null;
-	public Boolean highlightAtUser = null;
-	public Boolean highlightUrls = null;
-	public Boolean smokeAtUser = null;
-
-	public void loadConfiguration() {
-		this.getConfig().options().copyDefaults(true);
-		this.saveConfig();
-		formatBase = this.getConfig().getString("chat-format")
-				.replaceAll("(&([a-f0-9]))", "\u00A7$2");
-		formatMeBase = this.getConfig().getString("me-format")
-				.replaceAll("(&([a-f0-9]))", "\u00A7$2");
-		firstWordCapital = this.getConfig().getBoolean("first-word-capital");
-		highlightAtUser = this.getConfig().getBoolean("highlight-at-user");
-		highlightUrls = this.getConfig().getBoolean("highlight-urls");
-		smokeAtUser = this.getConfig().getBoolean("smoke-at-user");
-		/*
-		 * File file = new File(this.getDataFolder() + "/"); boolean exists =
-		 * file.exists(); if (!exists) { try { boolean success = new
-		 * File(this.getDataFolder() + "/").mkdir(); if (success) {
-		 * log.info("[RoyalChat] Created userdata directory."); } } catch
-		 * (Exception e) {
-		 * log.severe("[RoyalChat] Failed to make userdata directory!");
-		 * log.severe(e.getMessage()); } }
-		 */
-	}
+    public void loadConfiguration() {
+        this.getConfig().options().copyDefaults(true);
+        this.saveConfig();
+        formatBase = this.getConfig().getString("chat-format").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+        formatMeBase = this.getConfig().getString("me-format").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+        firstWordCapital = this.getConfig().getBoolean("first-word-capital");
+        highlightAtUser = this.getConfig().getBoolean("highlight-at-user");
+        highlightUrls = this.getConfig().getBoolean("highlight-urls");
+        smokeAtUser = this.getConfig().getBoolean("smoke-at-user");
+    }
 
     public void onEnable() {
 
         version = this.getDescription().getVersion();
 
-		loadConfiguration();
+        loadConfiguration();
 
-		if (!this.setupPermissions() || !this.setupChat()) {
-			log.info("[RoyalChat] No permissions plugin found! Cannot set group names or prefixes & suffixes! Will use default chat formatting.");
-		}
-
-		RoyalChatCommands cmdExec = new RoyalChatCommands(this);
-
-		getCommand("rchat").setExecutor(cmdExec);
-		getCommand("me").setExecutor(cmdExec);
-		getCommand("rclear").setExecutor(cmdExec);
-
-		PluginManager pm = this.getServer().getPluginManager();
+        PluginManager pm = this.getServer().getPluginManager();
 
         pm.registerEvents(playerListener, this);
 
-		log.info("[RoyalChat] Version " + this.version + " initiated.");
+        RoyalChatCommands cmdExec = new RoyalChatCommands(this);
 
-	}
+        getCommand("rchat").setExecutor(cmdExec);
+        getCommand("me").setExecutor(cmdExec);
+        getCommand("rclear").setExecutor(cmdExec);
 
-	public void onDisable() {
+        log.info("[RoyalChat] Version " + this.version + " initiated.");
 
-		log.info("[RoyalChat] Version " + this.version + " disabled.");
+    }
 
-	}
+    public void onDisable() {
+
+        log.info("[RoyalChat] Version " + this.version + " disabled.");
+
+    }
 
 }
