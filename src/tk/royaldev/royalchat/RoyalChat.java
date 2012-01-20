@@ -78,6 +78,9 @@ public class RoyalChat extends JavaPlugin {
 
         loadConfiguration();
 
+        setupChat();
+        setupPermissions();
+
         PluginManager pm = this.getServer().getPluginManager();
 
         pm.registerEvents(playerListener, this);

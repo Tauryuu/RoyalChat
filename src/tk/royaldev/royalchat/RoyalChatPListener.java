@@ -86,7 +86,6 @@ public class RoyalChatPListener implements Listener {
                                         Effect.SMOKE, i);
                             }
                         }
-                        p.getWorld().playEffect(pLoc, Effect.DOOR_TOGGLE, 20);
                     }
                 }
             }
@@ -102,8 +101,7 @@ public class RoyalChatPListener implements Listener {
 
         String format = plugin.formatBase;
 
-        String name = sender.getName().replaceAll("(&([a-f0-9]))",
-                "\u00A7$2");
+        String name = sender.getName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
         String prefix;
         try {
             prefix = RoyalChat.chat.getPlayerPrefix(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
