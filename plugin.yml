@@ -1,7 +1,7 @@
 name: RoyalChat
 main: tk.royaldev.royalchat.RoyalChat
 version: 0.0.5
-softdepend: [Vault, Towny]
+softdepend: [Vault, Towny, VanishNoPacket]
 author: jkcclemens
 
 commands:
@@ -17,6 +17,11 @@ commands:
     description: Clears the chat screen.
     aliases: [clear, clearscreen, cls]
     usage: /<command>
+
+  say:
+    description: Broadcasts a server message.
+    aliases: [rsay]
+    usage: /<command> [message]
     
 permissions:
   rchat.*:
@@ -31,7 +36,10 @@ permissions:
   rchat.me:
     description: Allows you to emote.
     default: op
-  rchat.clear:
+  rchat.rclear:
     description: Allows you to clear the chat screen.
+    default: op
+  rchat.say:
+    description: Allows you to broadcast a server message.
     default: op
     

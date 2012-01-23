@@ -1,5 +1,6 @@
 chat-format: "{prefix}{group}{suffix} {dispname}&f: {message}"
 me-format: "&d * &b{dispname}&d {message}"
+say-format: "&d[Server] {message}"
 first-word-capital: false
 highlight-at-user: true
 smoke-at-user: true

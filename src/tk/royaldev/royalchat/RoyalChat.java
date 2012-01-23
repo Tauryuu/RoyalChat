@@ -20,9 +20,12 @@ package tk.royaldev.royalchat;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.kitteh.vanish.VanishPlugin;
 
 import java.util.logging.Logger;
 
@@ -54,8 +57,18 @@ public class RoyalChat extends JavaPlugin {
         return (chat != null);
     }
 
+    VanishPlugin vp = null;
+
+    public boolean isVanished(Player p) {
+        if (vp == null) {
+            vp = (VanishPlugin) Bukkit.getServer().getPluginManager().getPlugin("VanishNoPacket");
+            return false;
+        } else return vp.getManager().isVanished(p.getName());
+    }
+
     public String formatBase = null;
     public String formatMeBase = null;
+    public String formatSay = null;
     public Boolean firstWordCapital = null;
     public Boolean highlightAtUser = null;
     public Boolean highlightUrls = null;
@@ -66,6 +79,7 @@ public class RoyalChat extends JavaPlugin {
         this.saveConfig();
         formatBase = this.getConfig().getString("chat-format").replaceAll("(&([a-f0-9]))", "\u00A7$2");
         formatMeBase = this.getConfig().getString("me-format").replaceAll("(&([a-f0-9]))", "\u00A7$2");
+        formatSay = this.getConfig().getString("say-format").replaceAll("(&([a-f0-9]))", "\u00A7$2");
         firstWordCapital = this.getConfig().getBoolean("first-word-capital");
         highlightAtUser = this.getConfig().getBoolean("highlight-at-user");
         highlightUrls = this.getConfig().getBoolean("highlight-urls");
@@ -90,6 +104,7 @@ public class RoyalChat extends JavaPlugin {
         getCommand("rchat").setExecutor(cmdExec);
         getCommand("me").setExecutor(cmdExec);
         getCommand("rclear").setExecutor(cmdExec);
+        getCommand("say").setExecutor(cmdExec);
 
         log.info("[RoyalChat] Version " + this.version + " initiated.");
 
