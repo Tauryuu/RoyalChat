@@ -36,12 +36,12 @@ public class RoyalChatPListener implements Listener {
     public void onPlayerChat(PlayerChatEvent event) {
 
         // Get sent message
-        String message = event.getMessage();
+        String message = event.getMessage().trim();
 
         // Get player object of sender
         Player sender = event.getPlayer();
 
-        if (message.startsWith("&") && message.trim().length() == 2) {
+        if (message.startsWith("&") && message.length() == 2) {
             event.setFormat("");
             event.setCancelled(true);
             return;
@@ -73,17 +73,18 @@ public class RoyalChatPListener implements Listener {
 
         if (plugin.highlightAtUser) {
             for (Player p : plugin.getServer().getOnlinePlayers()) {
-                if (message.contains(p.getName())) {
-                    message = message.replace(p.getName(), ChatColor.AQUA + "@"
-                            + p.getName() + ChatColor.WHITE);
-                    if (plugin.smokeAtUser) {
-                        Location pLoc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1, p.getLocation().getZ());
-                        for (int i = 0; i < 8; i++) {
-                            if (i != 4) {
-                                p.getWorld().playEffect(pLoc,
-                                        Effect.SMOKE, i);
-                                p.getWorld().playEffect(pLoc,
-                                        Effect.SMOKE, i);
+                if (!plugin.isVanished(p)) {
+                    if (message.contains(p.getName())) {
+                        message = message.replace(p.getName(), ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE);
+                        if (plugin.smokeAtUser) {
+                            Location pLoc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1, p.getLocation().getZ());
+                            for (int i = 0; i < 8; i++) {
+                                if (i != 4) {
+                                    p.getWorld().playEffect(pLoc,
+                                            Effect.SMOKE, i);
+                                    p.getWorld().playEffect(pLoc,
+                                            Effect.SMOKE, i);
+                                }
                             }
                         }
                     }
