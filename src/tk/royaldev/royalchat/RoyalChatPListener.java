@@ -32,7 +32,7 @@ public class RoyalChatPListener implements Listener {
     }
 
     // The chat processor
-    @EventHandler(event = PlayerChatEvent.class, priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(PlayerChatEvent event) {
 
         // Get sent message
