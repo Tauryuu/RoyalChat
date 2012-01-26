@@ -116,7 +116,7 @@ public class RoyalChatPListener implements Listener {
         }
 
         if (plugin.highlightUrls) {
-            message = message.replaceAll("((http|ftp|https|gopher)://)?[a-zA-Z0-9\\._-]*\\.(com|org|net|tk)(/[a-zA-Z0-9_-]*(\\.[a-zA-Z0-9_-]*)|/)?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
+            message = message.replaceAll("((http|ftp|https|gopher)://)?[a-zA-Z0-9\\._-]*\\.(com|org|net|tk)(/[a-zA-Z0-9_/-]*((\\.[a-zA-Z0-9_-]*)?)|/)?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
         }
 
         if (message.contains("%")) {
