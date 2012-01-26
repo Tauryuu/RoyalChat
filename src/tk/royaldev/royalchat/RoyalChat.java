@@ -25,11 +25,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.getspout.spoutapi.gui.GenericLabel;
-import org.getspout.spoutapi.player.SpoutPlayer;
 import org.kitteh.vanish.VanishPlugin;
 
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class RoyalChat extends JavaPlugin {
@@ -40,10 +37,10 @@ public class RoyalChat extends JavaPlugin {
 
     public static Permission permission = null;
     public static Chat chat = null;
+    
+    public Boolean spout;
 
     //public HashMap<String, UUID> sObj = new HashMap<String, UUID>();
-    public HashMap<SpoutPlayer, Integer> mess = new HashMap<SpoutPlayer, Integer>();
-    public HashMap<SpoutPlayer, GenericLabel> gls = new HashMap<SpoutPlayer, GenericLabel>();
 
     private final RoyalChatPListener playerListener = new RoyalChatPListener(this);
 
@@ -97,6 +94,8 @@ public class RoyalChat extends JavaPlugin {
     }
 
     public void onEnable() {
+
+        spout = getServer().getPluginManager().isPluginEnabled("Spout");
 
         version = this.getDescription().getVersion();
 

@@ -5,20 +5,11 @@ import com.palmergames.bukkit.towny.object.Resident;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.getspout.spoutapi.event.screen.ScreenCloseEvent;
-import org.getspout.spoutapi.event.screen.ScreenOpenEvent;
-import org.getspout.spoutapi.gui.Color;
-import org.getspout.spoutapi.gui.GenericLabel;
-import org.getspout.spoutapi.gui.ScreenType;
-import org.getspout.spoutapi.gui.WidgetAnchor;
-import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class RoyalChatPListener implements Listener {
 
@@ -48,42 +39,6 @@ public class RoyalChatPListener implements Listener {
         sp.openScreen(ScreenType.CHAT_SCREEN);
     }*/
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onJoin(PlayerJoinEvent e) {
-        if (!plugin.dispCounter) return;
-        Player p = e.getPlayer();
-        if (p instanceof SpoutPlayer) {
-            SpoutPlayer sp = (SpoutPlayer) p;
-            GenericLabel gl = new GenericLabel();
-            if (!plugin.mess.containsKey(sp)) {
-                plugin.mess.put(sp, 0);
-            }
-            int messages = plugin.mess.get(sp);
-            gl.setText(messages + " new messages.").setTextColor(new Color(255, 255, 255)).setX(3).setY(0).setAnchor(WidgetAnchor.BOTTOM_LEFT);
-            gl.setAlign(WidgetAnchor.BOTTOM_LEFT);
-            plugin.gls.put(sp, gl);
-            sp.getMainScreen().attachWidget(plugin, gl);
-        }
-    }
-
-    @EventHandler()
-    public void scrOpen(ScreenOpenEvent e) {
-        if (!plugin.dispCounter) return;
-        SpoutPlayer sp = e.getPlayer();
-        ScreenType st = e.getScreenType();
-        if (st != ScreenType.CHAT_SCREEN) return;
-        plugin.mess.put(sp, 0);
-        plugin.gls.get(sp).setText("0 new messages.").setTextColor(new Color(255, 255, 255)).setVisible(false);
-    }
-
-    @EventHandler()
-    public void scrClose(ScreenCloseEvent e) {
-        if (!plugin.dispCounter) return;
-        SpoutPlayer sp = e.getPlayer();
-        ScreenType st = e.getScreenType();
-        if (st != ScreenType.CHAT_SCREEN) return;
-        plugin.gls.get(sp).setVisible(true);
-    }
 
     // The chat processor
     @EventHandler(priority = EventPriority.LOW)
@@ -127,22 +82,8 @@ public class RoyalChatPListener implements Listener {
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 if (!plugin.isVanished(p)) {
                     if (message.contains(p.getName())) {
-                        if (p instanceof SpoutPlayer) {
-                            SpoutPlayer sp = (SpoutPlayer) p;
-                            if (!plugin.gls.containsKey(sp)) return;
-                            if (plugin.dispCounter) {
-                                GenericLabel gl = plugin.gls.get(sp);
-                                int messages = plugin.mess.get(sp) + 1;
-                                plugin.mess.put(sp, messages);
-                                if (messages == 1) {
-                                    gl.setText(messages + " new message.").setTextColor(new Color(255, 0, 0));
-                                } else {
-                                    gl.setText(messages + " new messages.").setTextColor(new Color(255, 0, 0));
-                                }
-                            }
-                            if (plugin.dispNotify) {
-                                sp.sendNotification("Name Mention!", "Your name was mentioned", Material.APPLE);
-                            }
+                        if (plugin.spout) {
+                            SpoutMethods.updateNumberOnName(p, plugin);
                         }
                         message = message.replace(p.getName(), ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE);
                         if (plugin.smokeAtUser) {
@@ -161,7 +102,9 @@ public class RoyalChatPListener implements Listener {
             }
         }
 
-        if (plugin.firstWordCapital) {
+        if (plugin.firstWordCapital)
+
+        {
             String firstLetter = message.substring(0, 1);
             firstLetter = firstLetter.toUpperCase();
             message = firstLetter + message.substring(1);
@@ -173,31 +116,60 @@ public class RoyalChatPListener implements Listener {
 
         String name = sender.getName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
         String prefix;
-        try {
+        try
+
+        {
             prefix = RoyalChat.chat.getPlayerPrefix(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-        } catch (Exception e) {
+        } catch (
+                Exception e
+                )
+
+        {
             prefix = "";
         }
+
         String suffix;
-        try {
+        try
+
+        {
             suffix = RoyalChat.chat.getPlayerSuffix(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-        } catch (Exception e) {
+        } catch (
+                Exception e
+                )
+
+        {
             suffix = "";
         }
+
         String group;
-        try {
+        try
+
+        {
             group = RoyalChat.permission.getPrimaryGroup(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-        } catch (Exception e) {
+        } catch (
+                Exception e
+                )
+
+        {
             group = "";
         }
+
         String dispname;
-        try {
+        try
+
+        {
             dispname = sender.getDisplayName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
-        } catch (Exception e) {
+        } catch (
+                Exception e
+                )
+
+        {
             dispname = "";
         }
 
-        if (format.contains("{towny")) {
+        if (format.contains("{towny"))
+
+        {
             Resident resident = TownyUtils.getResident(sender);
             if (resident != null) {
                 townyprefix = TownyFormatter.getNamePrefix(resident);
@@ -233,7 +205,9 @@ public class RoyalChatPListener implements Listener {
         format = format.replace("{prefix}", prefix);
         format = format.replace("{world}", world);
         format = format.replace("{message}", message);
-        if (format.contains("{towny")) {
+        if (format.contains("{towny"))
+
+        {
             format = format.replace("{townyprefix}", townyprefix);
             format = format.replace("{townysuffix}", townysuffix);
             format = format.replace("{townytitle}", townytitle);
@@ -241,6 +215,7 @@ public class RoyalChatPListener implements Listener {
             format = format.replace("{townytown}", townytown);
             format = format.replace("{townynation}", townynation);
         }
+
         event.setFormat(format);
     }
 }
