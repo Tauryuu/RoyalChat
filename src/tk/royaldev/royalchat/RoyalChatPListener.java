@@ -5,11 +5,20 @@ import com.palmergames.bukkit.towny.object.Resident;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.getspout.spoutapi.event.screen.ScreenCloseEvent;
+import org.getspout.spoutapi.event.screen.ScreenOpenEvent;
+import org.getspout.spoutapi.gui.Color;
+import org.getspout.spoutapi.gui.GenericLabel;
+import org.getspout.spoutapi.gui.ScreenType;
+import org.getspout.spoutapi.gui.WidgetAnchor;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class RoyalChatPListener implements Listener {
 
@@ -29,6 +38,51 @@ public class RoyalChatPListener implements Listener {
     // Permissions tester for player object
     public boolean isAuthorized(final Player player, final String node) {
         return player.isOp() || plugin.setupPermissions() && RoyalChat.permission.has(player, node);
+    }
+
+    /*@EventHandler()
+    public void onButton(ButtonClickEvent e) {
+        Button b = e.getButton();
+        if (!(b.getId() == plugin.sObj.get("chatButton"))) return;
+        SpoutPlayer sp = e.getPlayer();
+        sp.openScreen(ScreenType.CHAT_SCREEN);
+    }*/
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onJoin(PlayerJoinEvent e) {
+        if (!plugin.dispCounter) return;
+        Player p = e.getPlayer();
+        if (p instanceof SpoutPlayer) {
+            SpoutPlayer sp = (SpoutPlayer) p;
+            GenericLabel gl = new GenericLabel();
+            if (!plugin.mess.containsKey(sp)) {
+                plugin.mess.put(sp, 0);
+            }
+            int messages = plugin.mess.get(sp);
+            gl.setText(messages + " new messages.").setTextColor(new Color(255, 255, 255)).setX(3).setY(0).setAnchor(WidgetAnchor.BOTTOM_LEFT);
+            gl.setAlign(WidgetAnchor.BOTTOM_LEFT);
+            plugin.gls.put(sp, gl);
+            sp.getMainScreen().attachWidget(plugin, gl);
+        }
+    }
+
+    @EventHandler()
+    public void scrOpen(ScreenOpenEvent e) {
+        if (!plugin.dispCounter) return;
+        SpoutPlayer sp = e.getPlayer();
+        ScreenType st = e.getScreenType();
+        if (st != ScreenType.CHAT_SCREEN) return;
+        plugin.mess.put(sp, 0);
+        plugin.gls.get(sp).setText("0 new messages.").setTextColor(new Color(255, 255, 255)).setVisible(false);
+    }
+
+    @EventHandler()
+    public void scrClose(ScreenCloseEvent e) {
+        if (!plugin.dispCounter) return;
+        SpoutPlayer sp = e.getPlayer();
+        ScreenType st = e.getScreenType();
+        if (st != ScreenType.CHAT_SCREEN) return;
+        plugin.gls.get(sp).setVisible(true);
     }
 
     // The chat processor
@@ -61,10 +115,8 @@ public class RoyalChatPListener implements Listener {
 
         }
 
-        if (message.contains("://")) {
-            if (plugin.highlightUrls) {
-                message = message.replaceAll("(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-@?^=%&amp;/~\\+#])?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
-            }
+        if (plugin.highlightUrls) {
+            message = message.replaceAll("((http|ftp|https|gopher)://)?[a-zA-Z0-9\\._-]*\\.(com|org|net|tk)(/[a-zA-Z0-9_-]*(\\.[a-zA-Z0-9_-]*)|/)?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
         }
 
         if (message.contains("%")) {
@@ -75,6 +127,23 @@ public class RoyalChatPListener implements Listener {
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 if (!plugin.isVanished(p)) {
                     if (message.contains(p.getName())) {
+                        if (p instanceof SpoutPlayer) {
+                            SpoutPlayer sp = (SpoutPlayer) p;
+                            if (!plugin.gls.containsKey(sp)) return;
+                            if (plugin.dispCounter) {
+                                GenericLabel gl = plugin.gls.get(sp);
+                                int messages = plugin.mess.get(sp) + 1;
+                                plugin.mess.put(sp, messages);
+                                if (messages == 1) {
+                                    gl.setText(messages + " new message.").setTextColor(new Color(255, 0, 0));
+                                } else {
+                                    gl.setText(messages + " new messages.").setTextColor(new Color(255, 0, 0));
+                                }
+                            }
+                            if (plugin.dispNotify) {
+                                sp.sendNotification("Name Mention!", "Your name was mentioned", Material.APPLE);
+                            }
+                        }
                         message = message.replace(p.getName(), ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE);
                         if (plugin.smokeAtUser) {
                             Location pLoc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1, p.getLocation().getZ());

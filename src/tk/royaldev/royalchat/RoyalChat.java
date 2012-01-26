@@ -25,8 +25,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spoutapi.gui.GenericLabel;
+import org.getspout.spoutapi.player.SpoutPlayer;
 import org.kitteh.vanish.VanishPlugin;
 
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class RoyalChat extends JavaPlugin {
@@ -38,8 +41,11 @@ public class RoyalChat extends JavaPlugin {
     public static Permission permission = null;
     public static Chat chat = null;
 
-    private final RoyalChatPListener playerListener = new RoyalChatPListener(
-            this);
+    //public HashMap<String, UUID> sObj = new HashMap<String, UUID>();
+    public HashMap<SpoutPlayer, Integer> mess = new HashMap<SpoutPlayer, Integer>();
+    public HashMap<SpoutPlayer, GenericLabel> gls = new HashMap<SpoutPlayer, GenericLabel>();
+
+    private final RoyalChatPListener playerListener = new RoyalChatPListener(this);
 
     public Boolean setupPermissions() {
         RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
@@ -73,6 +79,8 @@ public class RoyalChat extends JavaPlugin {
     public Boolean highlightAtUser = null;
     public Boolean highlightUrls = null;
     public Boolean smokeAtUser = null;
+    public Boolean dispCounter = null;
+    public Boolean dispNotify = null;
 
     public void loadConfiguration() {
         this.getConfig().options().copyDefaults(true);
@@ -84,6 +92,8 @@ public class RoyalChat extends JavaPlugin {
         highlightAtUser = this.getConfig().getBoolean("highlight-at-user");
         highlightUrls = this.getConfig().getBoolean("highlight-urls");
         smokeAtUser = this.getConfig().getBoolean("smoke-at-user");
+        dispCounter = this.getConfig().getBoolean("display-messages-counter");
+        dispNotify = this.getConfig().getBoolean("display-messages-achievements");
     }
 
     public void onEnable() {
