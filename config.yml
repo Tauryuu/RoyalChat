@@ -7,3 +7,5 @@ smoke-at-user: true
 highlight-urls: true
 display-messages-counter: true
 display-messages-achievements: true
+remove-all-caps: true
+caps-removal-percent: 75

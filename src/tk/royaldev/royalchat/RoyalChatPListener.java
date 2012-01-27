@@ -31,15 +31,6 @@ public class RoyalChatPListener implements Listener {
         return player.isOp() || plugin.setupPermissions() && RoyalChat.permission.has(player, node);
     }
 
-    /*@EventHandler()
-    public void onButton(ButtonClickEvent e) {
-        Button b = e.getButton();
-        if (!(b.getId() == plugin.sObj.get("chatButton"))) return;
-        SpoutPlayer sp = e.getPlayer();
-        sp.openScreen(ScreenType.CHAT_SCREEN);
-    }*/
-
-
     // The chat processor
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(PlayerChatEvent event) {
@@ -78,6 +69,15 @@ public class RoyalChatPListener implements Listener {
             message = message.replace("%", "%%");
         }
 
+        if (plugin.remCaps) {
+            float a = 0;
+            String[] msg = message.replaceAll("\\W", "").split("");
+            for (String s : msg) if (s.matches("[A-Z]")) a++;
+            float percCaps = a / (float) msg.length;
+            float pC = plugin.capsPerc / 100F;
+            if (percCaps >= pC) message = message.toLowerCase();
+        }
+
         if (plugin.highlightAtUser) {
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 if (!plugin.isVanished(p)) {
@@ -90,10 +90,8 @@ public class RoyalChatPListener implements Listener {
                             Location pLoc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1, p.getLocation().getZ());
                             for (int i = 0; i < 8; i++) {
                                 if (i != 4) {
-                                    p.getWorld().playEffect(pLoc,
-                                            Effect.SMOKE, i);
-                                    p.getWorld().playEffect(pLoc,
-                                            Effect.SMOKE, i);
+                                    p.getWorld().playEffect(pLoc, Effect.SMOKE, i);
+                                    p.getWorld().playEffect(pLoc, Effect.SMOKE, i);
                                 }
                             }
                         }
@@ -102,9 +100,7 @@ public class RoyalChatPListener implements Listener {
             }
         }
 
-        if (plugin.firstWordCapital)
-
-        {
+        if (plugin.firstWordCapital) {
             String firstLetter = message.substring(0, 1);
             firstLetter = firstLetter.toUpperCase();
             message = firstLetter + message.substring(1);
@@ -116,54 +112,30 @@ public class RoyalChatPListener implements Listener {
 
         String name = sender.getName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
         String prefix;
-        try
-
-        {
+        try {
             prefix = RoyalChat.chat.getPlayerPrefix(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-        } catch (
-                Exception e
-                )
-
-        {
+        } catch (Exception e) {
             prefix = "";
         }
 
         String suffix;
-        try
-
-        {
+        try {
             suffix = RoyalChat.chat.getPlayerSuffix(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-        } catch (
-                Exception e
-                )
-
-        {
+        } catch (Exception e) {
             suffix = "";
         }
 
         String group;
-        try
-
-        {
+        try {
             group = RoyalChat.permission.getPrimaryGroup(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-        } catch (
-                Exception e
-                )
-
-        {
+        } catch (Exception e) {
             group = "";
         }
 
         String dispname;
-        try
-
-        {
+        try {
             dispname = sender.getDisplayName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
-        } catch (
-                Exception e
-                )
-
-        {
+        } catch (Exception e) {
             dispname = "";
         }
 
@@ -205,9 +177,7 @@ public class RoyalChatPListener implements Listener {
         format = format.replace("{prefix}", prefix);
         format = format.replace("{world}", world);
         format = format.replace("{message}", message);
-        if (format.contains("{towny"))
-
-        {
+        if (format.contains("{towny")) {
             format = format.replace("{townyprefix}", townyprefix);
             format = format.replace("{townysuffix}", townysuffix);
             format = format.replace("{townytitle}", townytitle);

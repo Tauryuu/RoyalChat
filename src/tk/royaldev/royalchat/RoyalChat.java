@@ -78,6 +78,8 @@ public class RoyalChat extends JavaPlugin {
     public Boolean smokeAtUser = null;
     public Boolean dispCounter = null;
     public Boolean dispNotify = null;
+    public Boolean remCaps = null;
+    public Float capsPerc = null;
 
     public void loadConfiguration() {
         this.getConfig().options().copyDefaults(true);
@@ -91,6 +93,8 @@ public class RoyalChat extends JavaPlugin {
         smokeAtUser = this.getConfig().getBoolean("smoke-at-user");
         dispCounter = this.getConfig().getBoolean("display-messages-counter");
         dispNotify = this.getConfig().getBoolean("display-messages-achievements");
+        remCaps = this.getConfig().getBoolean("remove-all-caps");
+        capsPerc = (float)this.getConfig().getInt("caps-removal-percent");
     }
 
     public void onEnable() {
