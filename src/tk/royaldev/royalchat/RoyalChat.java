@@ -20,12 +20,9 @@ package tk.royaldev.royalchat;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.kitteh.vanish.VanishPlugin;
 
 import java.util.logging.Logger;
 
@@ -37,7 +34,7 @@ public class RoyalChat extends JavaPlugin {
 
     public static Permission permission = null;
     public static Chat chat = null;
-    
+
     public Boolean spout;
 
     //public HashMap<String, UUID> sObj = new HashMap<String, UUID>();
@@ -58,15 +55,6 @@ public class RoyalChat extends JavaPlugin {
             chat = chatProvider.getProvider();
         }
         return (chat != null);
-    }
-
-    VanishPlugin vp = null;
-
-    public boolean isVanished(Player p) {
-        if (vp == null) {
-            vp = (VanishPlugin) Bukkit.getServer().getPluginManager().getPlugin("VanishNoPacket");
-            return false;
-        } else return vp.getManager().isVanished(p.getName());
     }
 
     public String formatBase = null;
@@ -94,7 +82,7 @@ public class RoyalChat extends JavaPlugin {
         dispCounter = this.getConfig().getBoolean("display-messages-counter");
         dispNotify = this.getConfig().getBoolean("display-messages-achievements");
         remCaps = this.getConfig().getBoolean("remove-all-caps");
-        capsPerc = (float)this.getConfig().getInt("caps-removal-percent");
+        capsPerc = (float) this.getConfig().getInt("caps-removal-percent");
     }
 
     public void onEnable() {

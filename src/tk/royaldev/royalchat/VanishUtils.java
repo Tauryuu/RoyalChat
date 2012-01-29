@@ -1,0 +1,15 @@
+package tk.royaldev.royalchat;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.kitteh.vanish.VanishPlugin;
+
+public class VanishUtils {
+
+    public static boolean isVanished(Player p) {
+        VanishPlugin vp;
+        vp = (VanishPlugin) Bukkit.getServer().getPluginManager().getPlugin("VanishNoPacket");
+        return !(vp == null || !(vp instanceof VanishPlugin)) && vp.getManager().isVanished(p.getName());
+    }
+
+}
