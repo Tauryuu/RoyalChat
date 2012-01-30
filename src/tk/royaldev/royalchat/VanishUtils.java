@@ -9,7 +9,7 @@ public class VanishUtils {
     public static boolean isVanished(Player p) {
         VanishPlugin vp;
         vp = (VanishPlugin) Bukkit.getServer().getPluginManager().getPlugin("VanishNoPacket");
-        return !(vp == null || !(vp instanceof VanishPlugin)) && vp.getManager().isVanished(p.getName());
+        return !(vp == null) && vp.getManager().isVanished(p.getName());
     }
 
 }
