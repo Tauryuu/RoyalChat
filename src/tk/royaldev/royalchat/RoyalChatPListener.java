@@ -70,12 +70,14 @@ public class RoyalChatPListener implements Listener {
         }
 
         if (plugin.remCaps) {
-            float a = 0;
-            String[] msg = message.replaceAll("\\W", "").split("");
-            for (String s : msg) if (s.matches("[A-Z]")) a++;
-            float percCaps = a / (float) msg.length;
-            float pC = plugin.capsPerc / 100F;
-            if (percCaps >= pC) message = message.toLowerCase();
+            if (!isAuthorized(sender, "rchat.caps")) {
+                float a = 0;
+                String[] msg = message.replaceAll("\\W", "").split("");
+                for (String s : msg) if (s.matches("[A-Z]")) a++;
+                float percCaps = a / (float) msg.length;
+                float pC = plugin.capsPerc / 100F;
+                if (percCaps >= pC) message = message.toLowerCase();
+            }
         }
 
         if (plugin.highlightAtUser) {

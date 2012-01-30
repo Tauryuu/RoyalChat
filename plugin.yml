@@ -26,13 +26,16 @@ commands:
     
 permissions:
   rchat.*:
-    description: Allows access to all RoyalChat commands
+    description: Allows access to all RoyalChat commands.
+    default: false
     children:
       rchat.rchat: true
       rchat.me: true
       rchat.clear: true
+      rchat.say: true
+      rchat.caps: true
   rchat.rchat:
-    description: Allows you to reload RoyalChat
+    description: Allows you to reload RoyalChat.
     default: op
   rchat.me:
     description: Allows you to emote.
@@ -42,5 +45,8 @@ permissions:
     default: op
   rchat.say:
     description: Allows you to broadcast a server message.
+    default: op
+  rchat.caps:
+    description: Allows you to bypass the caps filter.
     default: op
     
