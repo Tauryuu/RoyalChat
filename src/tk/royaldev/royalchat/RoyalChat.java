@@ -68,7 +68,7 @@ public class RoyalChat extends JavaPlugin {
     public Boolean dispNotify = null;
     public Boolean remCaps = null;
     public Float capsPerc = null;
-
+    
     public void loadConfiguration() {
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
