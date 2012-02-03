@@ -13,7 +13,7 @@ import org.getspout.spoutapi.gui.ScreenType;
 import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
 import tk.royaldev.royalchat.RoyalChat;
-import tk.royaldev.royalchat.SpoutMethods;
+import tk.royaldev.royalchat.utils.SpoutMethods;
 
 public class SpoutListener implements Listener {
 

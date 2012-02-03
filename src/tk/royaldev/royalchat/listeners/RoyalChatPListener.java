@@ -11,9 +11,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import tk.royaldev.royalchat.RoyalChat;
-import tk.royaldev.royalchat.SpoutMethods;
-import tk.royaldev.royalchat.TownyUtils;
-import tk.royaldev.royalchat.VanishUtils;
+import tk.royaldev.royalchat.utils.SpoutMethods;
+import tk.royaldev.royalchat.utils.TownyUtils;
+import tk.royaldev.royalchat.utils.VanishUtils;
 
 public class RoyalChatPListener implements Listener {
 
