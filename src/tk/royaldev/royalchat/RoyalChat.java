@@ -23,6 +23,8 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import tk.royaldev.royalchat.listeners.RoyalChatPListener;
+import tk.royaldev.royalchat.listeners.SpoutListener;
 
 import java.util.logging.Logger;
 
@@ -40,6 +42,7 @@ public class RoyalChat extends JavaPlugin {
     //public HashMap<String, UUID> sObj = new HashMap<String, UUID>();
 
     private final RoyalChatPListener playerListener = new RoyalChatPListener(this);
+    private final SpoutListener spoutListener = new SpoutListener(this);
 
     public Boolean setupPermissions() {
         RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
@@ -68,7 +71,7 @@ public class RoyalChat extends JavaPlugin {
     public Boolean dispNotify = null;
     public Boolean remCaps = null;
     public Float capsPerc = null;
-    
+
     public void loadConfiguration() {
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
@@ -99,6 +102,7 @@ public class RoyalChat extends JavaPlugin {
         PluginManager pm = this.getServer().getPluginManager();
 
         pm.registerEvents(playerListener, this);
+        if (spout) pm.registerEvents(spoutListener, this);
 
         RoyalChatCommands cmdExec = new RoyalChatCommands(this);
 
