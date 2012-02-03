@@ -1,4 +1,4 @@
-package tk.royaldev.royalchat;
+package tk.royaldev.royalchat.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,6 +12,8 @@ import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.ScreenType;
 import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
+import tk.royaldev.royalchat.RoyalChat;
+import tk.royaldev.royalchat.SpoutMethods;
 
 public class SpoutListener implements Listener {
 
@@ -25,18 +27,17 @@ public class SpoutListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         if (!plugin.spout || !plugin.dispCounter) return;
         Player p = e.getPlayer();
-        if (p instanceof SpoutPlayer) {
-            SpoutPlayer sp = (SpoutPlayer) p;
-            GenericLabel gl = new GenericLabel();
-            if (!SpoutMethods.mess.containsKey(sp)) {
-                SpoutMethods.mess.put(sp, 0);
-            }
-            int messages = SpoutMethods.mess.get(sp);
-            gl.setText(messages + " new messages.").setTextColor(new Color(255, 255, 255)).setX(3).setY(0).setAnchor(WidgetAnchor.BOTTOM_LEFT);
-            gl.setAlign(WidgetAnchor.BOTTOM_LEFT);
-            SpoutMethods.gls.put(sp, gl);
-            sp.getMainScreen().attachWidget(plugin, gl);
+        if (!(p instanceof SpoutPlayer)) return;
+        SpoutPlayer sp = (SpoutPlayer) p;
+        GenericLabel gl = new GenericLabel();
+        if (!SpoutMethods.mess.containsKey(sp)) {
+            SpoutMethods.mess.put(sp, 0);
         }
+        int messages = SpoutMethods.mess.get(sp);
+        gl.setText(messages + " new messages.").setTextColor(new Color(255, 255, 255)).setX(3).setY(0).setAnchor(WidgetAnchor.BOTTOM_LEFT);
+        gl.setAlign(WidgetAnchor.BOTTOM_LEFT);
+        SpoutMethods.gls.put(sp, gl);
+        sp.getMainScreen().attachWidget(plugin, gl);
     }
 
     @EventHandler()

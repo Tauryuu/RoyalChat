@@ -1,4 +1,4 @@
-package tk.royaldev.royalchat;
+package tk.royaldev.royalchat.utils;
 
 import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.object.Resident;

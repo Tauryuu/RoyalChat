@@ -1,4 +1,4 @@
-package tk.royaldev.royalchat;
+package tk.royaldev.royalchat.listeners;
 
 import com.palmergames.bukkit.towny.TownyFormatter;
 import com.palmergames.bukkit.towny.object.Resident;
@@ -10,6 +10,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
+import tk.royaldev.royalchat.RoyalChat;
+import tk.royaldev.royalchat.SpoutMethods;
+import tk.royaldev.royalchat.TownyUtils;
+import tk.royaldev.royalchat.VanishUtils;
 
 public class RoyalChatPListener implements Listener {
 
