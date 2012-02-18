@@ -3,9 +3,9 @@ RoyalChat
 
 RoyalChat is a *simple* chat manager for your Minecraft server. It uses permissions to assign group names and prefixes (and suffixes) to your liking. Everything is configurable by you.
 
-RoyalChat is coded in Eclipse 3.7.1 with the following libraries:
+RoyalChat is coded in IntelliJ with the following libraries:
 
- * bukkit-1.0.0-RC2-SNAPSHOT.jar
+ * Bukkit
 
 ### Contact
 
@@ -14,7 +14,7 @@ RoyalChat is coded in Eclipse 3.7.1 with the following libraries:
 
 ### Bleeding Edge Builds
 
-Changes pushed to GitHub will be auto-compiled on [Jenkins](http://royalcraftci.no-ip.org).
+Changes pushed to GitHub will be auto-compiled on [Jenkins](http://ci.royaldev.org).
 
 ### About the developer
 
