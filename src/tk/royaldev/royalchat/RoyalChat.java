@@ -37,12 +37,9 @@ public class RoyalChat extends JavaPlugin {
     public static Permission permission = null;
     public static Chat chat = null;
 
-    public Boolean spout;
-
-    //public HashMap<String, UUID> sObj = new HashMap<String, UUID>();
+    public boolean spout;
 
     private final RoyalChatPListener playerListener = new RoyalChatPListener(this);
-    private final SpoutListener spoutListener = new SpoutListener(this);
 
     public Boolean setupPermissions() {
         RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
@@ -104,7 +101,7 @@ public class RoyalChat extends JavaPlugin {
         PluginManager pm = this.getServer().getPluginManager();
 
         pm.registerEvents(playerListener, this);
-        if (spout) pm.registerEvents(spoutListener, this);
+        if (spout) pm.registerEvents(new SpoutListener(this), this);
 
         RoyalChatCommands cmdExec = new RoyalChatCommands(this);
 
