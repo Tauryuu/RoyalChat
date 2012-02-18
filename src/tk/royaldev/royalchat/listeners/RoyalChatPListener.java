@@ -91,7 +91,10 @@ public class RoyalChatPListener implements Listener {
                         if (plugin.spout) {
                             SpoutMethods.updateNumberOnName(p, plugin);
                         }
-                        message = message.replaceAll("(?i)" + p.getName(), ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE);
+                        if (plugin.useAtSign)
+                            message = message.replaceAll("(?i)" + p.getName(), ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE);
+                        else
+                            message = message.replaceAll("(?i)" + p.getName(), ChatColor.AQUA + p.getName() + ChatColor.WHITE);
                         if (plugin.smokeAtUser) {
                             Location pLoc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1, p.getLocation().getZ());
                             for (int i = 0; i < 8; i++) {

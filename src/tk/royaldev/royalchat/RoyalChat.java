@@ -70,6 +70,7 @@ public class RoyalChat extends JavaPlugin {
     public Boolean dispCounter = null;
     public Boolean dispNotify = null;
     public Boolean remCaps = null;
+    public Boolean useAtSign = null;
     public Float capsPerc = null;
 
     public void loadConfiguration() {
@@ -85,6 +86,7 @@ public class RoyalChat extends JavaPlugin {
         dispCounter = this.getConfig().getBoolean("display-messages-counter");
         dispNotify = this.getConfig().getBoolean("display-messages-achievements");
         remCaps = this.getConfig().getBoolean("remove-all-caps");
+        useAtSign = this.getConfig().getBoolean("use-at-sign");
         capsPerc = (float) this.getConfig().getInt("caps-removal-percent");
     }
 

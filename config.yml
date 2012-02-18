@@ -5,6 +5,7 @@ first-word-capital: false
 highlight-at-user: true
 smoke-at-user: true
 highlight-urls: true
+use-at-sign: true
 display-messages-counter: true
 display-messages-achievements: true
 remove-all-caps: true
