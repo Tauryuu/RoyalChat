@@ -1,7 +1,7 @@
 name: RoyalChat
 main: tk.royaldev.royalchat.RoyalChat
 version: 0.0.6
-website: http://royaldev.org/
+website: http://dev.royaldev.org/
 softdepend: [Vault, Towny, VanishNoPacket, Spout]
 author: jkcclemens
 

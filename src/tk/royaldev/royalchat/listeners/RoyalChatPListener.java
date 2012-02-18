@@ -56,12 +56,12 @@ public class RoyalChatPListener implements Listener {
 
             // If not, remove color
             message = message.replace("&&", "&");
-            message = message.replaceAll("(&([a-f0-9]))", "");
+            message = message.replaceAll("(&([a-f0-9kK]))", "");
 
         } else if (isAuthorized(sender, "rchat.color")) {
 
             // If yes, allow color
-            message = message.replaceAll("(&([a-f0-9]))", "\u00A7$2");
+            message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
 
         }
 
@@ -119,31 +119,31 @@ public class RoyalChatPListener implements Listener {
 
         String format = plugin.formatBase;
 
-        String name = sender.getName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
+        String name = sender.getName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
         String prefix;
         try {
-            prefix = RoyalChat.chat.getPlayerPrefix(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
+            prefix = RoyalChat.chat.getPlayerPrefix(sender).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
         } catch (Exception e) {
             prefix = "";
         }
 
         String suffix;
         try {
-            suffix = RoyalChat.chat.getPlayerSuffix(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
+            suffix = RoyalChat.chat.getPlayerSuffix(sender).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
         } catch (Exception e) {
             suffix = "";
         }
 
         String group;
         try {
-            group = RoyalChat.permission.getPrimaryGroup(sender).replaceAll("(&([a-f0-9]))", "\u00A7$2");
+            group = RoyalChat.permission.getPrimaryGroup(sender).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
         } catch (Exception e) {
             group = "";
         }
 
         String dispname;
         try {
-            dispname = sender.getDisplayName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
+            dispname = sender.getDisplayName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
         } catch (Exception e) {
             dispname = "";
         }
