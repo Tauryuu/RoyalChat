@@ -43,13 +43,7 @@ public class RoyalChatCommands implements CommandExecutor {
                 return true;
             } else {
                 plugin.reloadConfig();
-                plugin.formatBase = plugin.getConfig().getString("chat-format").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-                plugin.formatMeBase = plugin.getConfig().getString("me-format").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-                plugin.formatSay = plugin.getConfig().getString("say-format").replaceAll("(&([a-f0-9]))", "\u00A7$2");
-                plugin.firstWordCapital = plugin.getConfig().getBoolean("first-word-capital");
-                plugin.highlightAtUser = plugin.getConfig().getBoolean("highlight-at-user");
-                plugin.smokeAtUser = plugin.getConfig().getBoolean("smoke-at-user");
-                plugin.highlightUrls = plugin.getConfig().getBoolean("highlight-urls");
+                plugin.loadConfiguration();
                 cs.sendMessage(ChatColor.AQUA + "RoyalChat" + ChatColor.GREEN + " version " + plugin.version + " reloaded.");
                 return true;
             }

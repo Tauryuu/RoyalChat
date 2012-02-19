@@ -73,18 +73,18 @@ public class RoyalChat extends JavaPlugin {
     public void loadConfiguration() {
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
-        formatBase = this.getConfig().getString("chat-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
-        formatMeBase = this.getConfig().getString("me-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
-        formatSay = this.getConfig().getString("say-format").replaceAll("(&([a-f0-9]kK))", "\u00A7$2");
-        firstWordCapital = this.getConfig().getBoolean("first-word-capital");
-        highlightAtUser = this.getConfig().getBoolean("highlight-at-user");
-        highlightUrls = this.getConfig().getBoolean("highlight-urls");
-        smokeAtUser = this.getConfig().getBoolean("smoke-at-user");
-        dispCounter = this.getConfig().getBoolean("display-messages-counter");
-        dispNotify = this.getConfig().getBoolean("display-messages-achievements");
-        remCaps = this.getConfig().getBoolean("remove-all-caps");
-        useAtSign = this.getConfig().getBoolean("use-at-sign");
-        capsPerc = (float) this.getConfig().getInt("caps-removal-percent");
+        this.formatBase = this.getConfig().getString("chat-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        this.formatMeBase = this.getConfig().getString("me-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        this.formatSay = this.getConfig().getString("say-format").replaceAll("(&([a-f0-9]kK))", "\u00A7$2");
+        this.firstWordCapital = this.getConfig().getBoolean("first-word-capital");
+        this.highlightAtUser = this.getConfig().getBoolean("highlight-at-user");
+        this.highlightUrls = this.getConfig().getBoolean("highlight-urls");
+        this.smokeAtUser = this.getConfig().getBoolean("smoke-at-user");
+        this.dispCounter = this.getConfig().getBoolean("display-messages-counter");
+        this.dispNotify = this.getConfig().getBoolean("display-messages-achievements");
+        this.remCaps = this.getConfig().getBoolean("remove-all-caps");
+        this.useAtSign = this.getConfig().getBoolean("use-at-sign");
+        this.capsPerc = (float) this.getConfig().getInt("caps-removal-percent");
     }
 
     public void onEnable() {

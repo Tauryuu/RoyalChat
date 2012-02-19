@@ -148,9 +148,7 @@ public class RoyalChatPListener implements Listener {
             dispname = "";
         }
 
-        if (format.contains("{towny"))
-
-        {
+        if (format.contains("{towny")) {
             Resident resident = TownyUtils.getResident(sender);
             if (resident != null) {
                 townyprefix = TownyFormatter.getNamePrefix(resident);
