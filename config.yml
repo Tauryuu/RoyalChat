@@ -1,12 +1,28 @@
+# Default chat formatting
 chat-format: "{prefix}{group}{suffix} {dispname}&f: {message}"
+# Default /me formatting
 me-format: "&d * &b{dispname}&d {message}"
+# Default /say formatting
 say-format: "&d[Server] {message}"
+# Default /ac formatting
+admin-format: "&b[Admin] {dispname}:&3 {message}"
+# Capitalize first word?
 first-word-capital: false
+# Highlight users when they are mentioned?
 highlight-at-user: true
+# Poof smoke on users when they are mentioned?
 smoke-at-user: true
+# Highlight valid URLs?
 highlight-urls: true
+# Display the @ sign in front of mentioned users?
 use-at-sign: true
+# Display a counter of unread mentioned messages in SpoutCraft?
 display-messages-counter: true
+# Display an achievement when you're mentioned in SpoutCraft?
 display-messages-achievements: true
+# Remove all caps messages?
 remove-all-caps: true
+# Percent of message that must be in caps to be make it lowercase (remove-all-caps must be true)
 caps-removal-percent: 75
+# Max chat radius. 0 is none
+chat-radius: 0

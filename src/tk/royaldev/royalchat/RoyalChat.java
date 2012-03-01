@@ -20,12 +20,15 @@ package tk.royaldev.royalchat;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import tk.royaldev.royalchat.listeners.RoyalChatPListener;
 import tk.royaldev.royalchat.listeners.SpoutListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class RoyalChat extends JavaPlugin {
@@ -38,6 +41,8 @@ public class RoyalChat extends JavaPlugin {
     public static Chat chat = null;
 
     public boolean spout;
+    
+    public List<Player> acd = new ArrayList<Player>();
 
     private final RoyalChatPListener playerListener = new RoyalChatPListener(this);
 
@@ -60,6 +65,7 @@ public class RoyalChat extends JavaPlugin {
     public String formatBase = null;
     public String formatMeBase = null;
     public String formatSay = null;
+    public String formatAdmin = null;
     public Boolean firstWordCapital = null;
     public Boolean highlightAtUser = null;
     public Boolean highlightUrls = null;
@@ -69,22 +75,25 @@ public class RoyalChat extends JavaPlugin {
     public Boolean remCaps = null;
     public Boolean useAtSign = null;
     public Float capsPerc = null;
+    public Float maxRadius = null;
 
     public void loadConfiguration() {
-        this.getConfig().options().copyDefaults(true);
-        this.saveConfig();
-        this.formatBase = this.getConfig().getString("chat-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
-        this.formatMeBase = this.getConfig().getString("me-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
-        this.formatSay = this.getConfig().getString("say-format").replaceAll("(&([a-f0-9]kK))", "\u00A7$2");
-        this.firstWordCapital = this.getConfig().getBoolean("first-word-capital");
-        this.highlightAtUser = this.getConfig().getBoolean("highlight-at-user");
-        this.highlightUrls = this.getConfig().getBoolean("highlight-urls");
-        this.smokeAtUser = this.getConfig().getBoolean("smoke-at-user");
-        this.dispCounter = this.getConfig().getBoolean("display-messages-counter");
-        this.dispNotify = this.getConfig().getBoolean("display-messages-achievements");
-        this.remCaps = this.getConfig().getBoolean("remove-all-caps");
-        this.useAtSign = this.getConfig().getBoolean("use-at-sign");
-        this.capsPerc = (float) this.getConfig().getInt("caps-removal-percent");
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+        formatBase = getConfig().getString("chat-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        formatMeBase = getConfig().getString("me-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        formatSay = getConfig().getString("say-format").replaceAll("(&([a-f0-9]kK))", "\u00A7$2");
+        formatAdmin = getConfig().getString("admin-format").replaceAll("(&([a-f0-9]kK))", "\u00A7$2");
+        firstWordCapital = getConfig().getBoolean("first-word-capital");
+        highlightAtUser = getConfig().getBoolean("highlight-at-user");
+        highlightUrls = getConfig().getBoolean("highlight-urls");
+        smokeAtUser = getConfig().getBoolean("smoke-at-user");
+        dispCounter = getConfig().getBoolean("display-messages-counter");
+        dispNotify = getConfig().getBoolean("display-messages-achievements");
+        remCaps = getConfig().getBoolean("remove-all-caps");
+        useAtSign = getConfig().getBoolean("use-at-sign");
+        capsPerc = (float) this.getConfig().getDouble("caps-removal-percent");
+        maxRadius = (float) this.getConfig().getDouble("chat-radius");
     }
 
     public void onEnable() {
