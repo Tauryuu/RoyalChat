@@ -1,13 +1,11 @@
 package tk.royaldev.royalchat;
 
-import com.palmergames.bukkit.towny.TownyFormatter;
-import com.palmergames.bukkit.towny.object.Resident;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import tk.royaldev.royalchat.utils.TownyUtils;
+import tk.royaldev.royalchat.utils.Formatter;
 
 public class RoyalChatCommands implements CommandExecutor {
 
@@ -36,7 +34,7 @@ public class RoyalChatCommands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender cs, Command cmd, String commandLabel, String[] args) {
-
+        Formatter f = new Formatter(plugin);
         if (cmd.getName().equalsIgnoreCase("rchat")) {
             if (!isAuthorized(cs, "rchat.rchat")) {
                 cs.sendMessage(ChatColor.RED + "You don't have permission for that!");
@@ -56,101 +54,12 @@ public class RoyalChatCommands implements CommandExecutor {
                 cs.sendMessage(cmd.getDescription());
                 return false;
             }
-
-            String message = getFinalArg(args, 0).trim().replaceAll("(&([a-f0-9]))", "\u00A7$2");
-
-            String format = plugin.formatMeBase;
-            String name = cs.getName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            String prefix;
-            try {
-                prefix = RoyalChat.chat.getPlayerPrefix((Player) cs).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            } catch (Exception e) {
-                prefix = "";
+            if (!(cs instanceof Player)) {
+                cs.sendMessage(ChatColor.RED + "This command is only available to players!");
+                return true;
             }
-            String suffix;
-            try {
-                suffix = RoyalChat.chat.getPlayerSuffix((Player) cs).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            } catch (Exception e) {
-                suffix = "";
-            }
-            String group;
-            try {
-                group = RoyalChat.permission.getPrimaryGroup((Player) cs).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            } catch (Exception e) {
-                group = "";
-            }
-            String dispname;
-            try {
-                dispname = ((Player) cs).getDisplayName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            } catch (Exception e) {
-                if (!(cs instanceof Player)) {
-                    dispname = cs.getName();
-                } else {
-                    dispname = "";
-                }
-            }
-
-            String townyprefix = null;
-            String townysuffix = null;
-            String townytitle = null;
-            String townysurname = null;
-            String townytown = null;
-            String townynation = null;
-
-            if (format.contains("{towny")) {
-                Resident resident;
-                try {
-                    resident = TownyUtils.getResident((Player) cs);
-                } catch (Exception e) {
-                    resident = null;
-                }
-                if (resident != null) {
-                    townyprefix = TownyFormatter.getNamePrefix(resident);
-                    townysuffix = TownyFormatter.getNamePostfix(resident);
-                    townytitle = resident.getTitle();
-                    townysurname = resident.getSurname();
-                    try {
-                        townytown = resident.getTown().getName();
-                    } catch (Exception e) {
-                        townytown = "";
-                    }
-                    try {
-                        townynation = resident.getTown().getNation().getName();
-                    } catch (Exception e) {
-                        townynation = "";
-                    }
-                } else {
-                    townyprefix = "";
-                    townysuffix = "";
-                    townytitle = "";
-                    townysurname = "";
-                    townytown = "";
-                    townynation = "";
-                }
-            }
-
-            String world;
-            try {
-                world = ((Player) cs).getWorld().getName();
-            } catch (Exception e) {
-                world = "";
-            }
-
-            format = format.replace("{name}", name);
-            format = format.replace("{dispname}", dispname);
-            format = format.replace("{group}", group);
-            format = format.replace("{suffix}", suffix);
-            format = format.replace("{prefix}", prefix);
-            format = format.replace("{world}", world);
-            format = format.replace("{message}", message);
-            if (format.contains("{towny")) {
-                format = format.replace("{townyprefix}", townyprefix);
-                format = format.replace("{townysuffix}", townysuffix);
-                format = format.replace("{townytitle}", townytitle);
-                format = format.replace("{townysurname}", townysurname);
-                format = format.replace("{townytown}", townytown);
-                format = format.replace("{townynation}", townynation);
-            }
+            Player p = (Player) cs;
+            String format = f.formatChat(getFinalArg(args, 0), p, plugin.formatMeBase);
             plugin.getServer().broadcastMessage(format);
             return true;
         } else if (cmd.getName().equalsIgnoreCase("say")) {
@@ -162,100 +71,35 @@ public class RoyalChatCommands implements CommandExecutor {
                 cs.sendMessage(cmd.getDescription());
                 return false;
             }
-            String format = plugin.formatSay;
-            String message = getFinalArg(args, 0).trim().replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            String name = cs.getName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            String prefix;
-            try {
-                prefix = RoyalChat.chat.getPlayerPrefix((Player) cs).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            } catch (Exception e) {
-                prefix = "";
-            }
-            String suffix;
-            try {
-                suffix = RoyalChat.chat.getPlayerSuffix((Player) cs).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            } catch (Exception e) {
-                suffix = "";
-            }
-            String group;
-            try {
-                group = RoyalChat.permission.getPrimaryGroup((Player) cs).replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            } catch (Exception e) {
-                group = "";
-            }
-            String dispname;
-            try {
-                dispname = ((Player) cs).getDisplayName().replaceAll("(&([a-f0-9]))", "\u00A7$2");
-            } catch (Exception e) {
-                if (!(cs instanceof Player)) {
-                    dispname = cs.getName();
-                } else {
-                    dispname = "";
-                }
-            }
-
-            String townyprefix = null;
-            String townysuffix = null;
-            String townytitle = null;
-            String townysurname = null;
-            String townytown = null;
-            String townynation = null;
-
-            if (format.contains("{towny")) {
-                Resident resident;
-                try {
-                    resident = TownyUtils.getResident((Player) cs);
-                } catch (Exception e) {
-                    resident = null;
-                }
-                if (resident != null) {
-                    townyprefix = TownyFormatter.getNamePrefix(resident);
-                    townysuffix = TownyFormatter.getNamePostfix(resident);
-                    townytitle = resident.getTitle();
-                    townysurname = resident.getSurname();
-                    try {
-                        townytown = resident.getTown().getName();
-                    } catch (Exception e) {
-                        townytown = "";
-                    }
-                    try {
-                        townynation = resident.getTown().getNation().getName();
-                    } catch (Exception e) {
-                        townynation = "";
-                    }
-                } else {
-                    townyprefix = "";
-                    townysuffix = "";
-                    townytitle = "";
-                    townysurname = "";
-                    townytown = "";
-                    townynation = "";
-                }
-            }
-
-            String world;
-            try {
-                world = ((Player) cs).getWorld().getName();
-            } catch (Exception e) {
-                world = "";
-            }
-
-            format = format.replace("{name}", name);
-            format = format.replace("{dispname}", dispname);
-            format = format.replace("{group}", group);
-            format = format.replace("{suffix}", suffix);
-            format = format.replace("{prefix}", prefix);
-            format = format.replace("{world}", world);
-            format = format.replace("{message}", message);
-            if (format.contains("{towny")) {
-                format = format.replace("{townyprefix}", townyprefix);
-                format = format.replace("{townysuffix}", townysuffix);
-                format = format.replace("{townytitle}", townytitle);
-                format = format.replace("{townysurname}", townysurname);
-                format = format.replace("{townytown}", townytown);
-                format = format.replace("{townynation}", townynation);
-            }
+            String format = f.formatChatSay(getFinalArg(args, 0), cs, plugin.formatSay);
             plugin.getServer().broadcastMessage(format);
+            return true;
+        } else if (cmd.getName().equalsIgnoreCase("ac")) {
+            if (!isAuthorized(cs, "rchat.ac")) {
+                cs.sendMessage(ChatColor.RED + "You don't have permission for that!");
+                return true;
+            }
+            if (args.length < 1) {
+                if (!(cs instanceof Player)) {
+                    cs.sendMessage(cmd.getDescription());
+                    return false;
+                }
+                Player p = (Player) cs;
+                if (plugin.acd.contains(p)) {
+                    plugin.acd.remove(p);
+                    p.sendMessage(ChatColor.BLUE + "Admin chat " + ChatColor.GRAY + "off" + ChatColor.BLUE + ".");
+                } else {
+                    plugin.acd.add(p);
+                    p.sendMessage(ChatColor.BLUE + "Admin chat " + ChatColor.GRAY + "on" + ChatColor.BLUE + ".");
+                }
+                return true;
+            }
+            String message = getFinalArg(args, 0);
+            String format = f.formatChatSay(message, cs, plugin.formatAdmin);
+            for (Player p : plugin.getServer().getOnlinePlayers()) {
+                if (!isAuthorized(p, "rchat.ac")) continue;
+                p.sendMessage(format);
+            }
             return true;
         } else if (cmd.getName().equalsIgnoreCase("rclear")) {
             if (!isAuthorized(cs, "rchat.rclear")) {

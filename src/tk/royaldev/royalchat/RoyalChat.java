@@ -118,6 +118,7 @@ public class RoyalChat extends JavaPlugin {
         getCommand("me").setExecutor(cmdExec);
         getCommand("rclear").setExecutor(cmdExec);
         getCommand("say").setExecutor(cmdExec);
+        getCommand("ac").setExecutor(cmdExec);
 
         log.info("[RoyalChat] Version " + this.version + " initiated.");
 

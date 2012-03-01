@@ -23,6 +23,11 @@ commands:
     description: Broadcasts a server message.
     aliases: [rsay]
     usage: /<command> [message]
+
+  ac:
+    description: Talks in Admin Chat or toggles it.
+    aliases: [adminchat, a]
+    usage: /<command> (message)
     
 permissions:
   rchat.*:
@@ -34,6 +39,7 @@ permissions:
       rchat.clear: true
       rchat.say: true
       rchat.caps: true
+      rchat.ac: true
   rchat.rchat:
     description: Allows you to reload RoyalChat.
     default: op
@@ -49,4 +55,6 @@ permissions:
   rchat.caps:
     description: Allows you to bypass the caps filter.
     default: op
+  rchat.ac:
+    description: Allows you to see messages and talk in Admin Chat.
     
