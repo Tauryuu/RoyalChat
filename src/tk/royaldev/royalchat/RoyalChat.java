@@ -82,8 +82,8 @@ public class RoyalChat extends JavaPlugin {
         saveConfig();
         formatBase = getConfig().getString("chat-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
         formatMeBase = getConfig().getString("me-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
-        formatSay = getConfig().getString("say-format").replaceAll("(&([a-f0-9]kK))", "\u00A7$2");
-        formatAdmin = getConfig().getString("admin-format").replaceAll("(&([a-f0-9]kK))", "\u00A7$2");
+        formatSay = getConfig().getString("say-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        formatAdmin = getConfig().getString("admin-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
         firstWordCapital = getConfig().getBoolean("first-word-capital");
         highlightAtUser = getConfig().getBoolean("highlight-at-user");
         highlightUrls = getConfig().getBoolean("highlight-urls");
