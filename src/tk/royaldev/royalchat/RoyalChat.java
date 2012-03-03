@@ -35,7 +35,7 @@ public class RoyalChat extends JavaPlugin {
 
     public String version;
 
-    Logger log = Logger.getLogger("Minecraft");
+    public Logger log = Logger.getLogger("Minecraft");
 
     public static Permission permission = null;
     public static Chat chat = null;

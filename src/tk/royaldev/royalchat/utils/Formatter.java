@@ -229,7 +229,7 @@ public class Formatter {
             }
         }
 
-        if (plugin.highlightAtUser) {
+        /*if (plugin.highlightAtUser) {
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 if (!VanishUtils.isVanished(p)) {
                     if (message.toLowerCase().contains(p.getName().toLowerCase())) {
@@ -252,7 +252,7 @@ public class Formatter {
                     }
                 }
             }
-        }
+        }*/
 
         if (plugin.firstWordCapital) {
             String firstLetter = message.substring(0, 1);
