@@ -100,6 +100,7 @@ public class RoyalChatCommands implements CommandExecutor {
                 if (!isAuthorized(p, "rchat.ac")) continue;
                 p.sendMessage(format);
             }
+            plugin.log.info(format);
             return true;
         } else if (cmd.getName().equalsIgnoreCase("rclear")) {
             if (!isAuthorized(cs, "rchat.rclear")) {

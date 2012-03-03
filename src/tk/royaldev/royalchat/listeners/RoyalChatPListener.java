@@ -41,6 +41,7 @@ public class RoyalChatPListener implements Listener {
                 if (!isAuthorized(p, "rchat.ac")) continue;
                 p.sendMessage(format);
             }
+            plugin.log.info(format);
             event.setCancelled(true);
             event.setFormat("");
             return;
