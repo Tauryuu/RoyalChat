@@ -1,4 +1,4 @@
-package tk.royaldev.royalchat.listeners;
+package org.royaldev.royalchat.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,8 +12,8 @@ import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.ScreenType;
 import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
-import tk.royaldev.royalchat.RoyalChat;
-import tk.royaldev.royalchat.utils.SpoutMethods;
+import org.royaldev.royalchat.RoyalChat;
+import org.royaldev.royalchat.utils.SpoutMethods;
 
 public class SpoutListener implements Listener {
 

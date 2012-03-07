@@ -1,4 +1,4 @@
-package tk.royaldev.royalchat.listeners;
+package org.royaldev.royalchat.listeners;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -6,8 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
-import tk.royaldev.royalchat.RoyalChat;
-import tk.royaldev.royalchat.utils.Formatter;
+import org.royaldev.royalchat.RoyalChat;
+import org.royaldev.royalchat.utils.Formatter;
 
 import java.util.List;
 

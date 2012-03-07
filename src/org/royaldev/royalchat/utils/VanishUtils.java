@@ -1,4 +1,4 @@
-package tk.royaldev.royalchat.utils;
+package org.royaldev.royalchat.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

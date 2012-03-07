@@ -1,4 +1,4 @@
-package tk.royaldev.royalchat.utils;
+package org.royaldev.royalchat.utils;
 
 import com.palmergames.bukkit.towny.TownyFormatter;
 import com.palmergames.bukkit.towny.object.Resident;
@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import tk.royaldev.royalchat.RoyalChat;
+import org.royaldev.royalchat.RoyalChat;
 
 public class Formatter {
 
@@ -258,6 +258,133 @@ public class Formatter {
             String firstLetter = message.substring(0, 1);
             firstLetter = firstLetter.toUpperCase();
             message = firstLetter + message.substring(1);
+        }
+
+        // If you have permissions, set chat format
+        String format = base;
+        String name = sender.getName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        String prefix = "";
+        String suffix = "";
+        String group = "";
+        String dispname = "";
+        String world = "";
+
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            try {
+                prefix = RoyalChat.chat.getPlayerPrefix(p).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+            } catch (Exception e) {
+                prefix = "";
+            }
+
+            try {
+                suffix = RoyalChat.chat.getPlayerSuffix(p).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+            } catch (Exception e) {
+                suffix = "";
+            }
+
+            try {
+                group = RoyalChat.permission.getPrimaryGroup(p).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+            } catch (Exception e) {
+                group = "";
+            }
+
+            try {
+                dispname = p.getDisplayName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+            } catch (Exception e) {
+                dispname = "";
+            }
+
+            if (format.contains("{towny")) {
+                Resident resident = TownyUtils.getResident(p);
+                if (resident != null) {
+                    townyprefix = TownyFormatter.getNamePrefix(resident);
+                    townysuffix = TownyFormatter.getNamePostfix(resident);
+                    townytitle = resident.getTitle();
+                    townysurname = resident.getSurname();
+                    try {
+                        townytown = resident.getTown().getName();
+                    } catch (Exception e) {
+                        townytown = "";
+                    }
+                    try {
+                        townynation = resident.getTown().getNation().getName();
+                    } catch (Exception e) {
+                        townynation = "";
+                    }
+                } else {
+                    townyprefix = "";
+                    townysuffix = "";
+                    townytitle = "";
+                    townysurname = "";
+                    townytown = "";
+                    townynation = "";
+                }
+            }
+
+            world = p.getWorld().getName();
+        }
+
+        format = format.replace("{name}", name);
+        format = format.replace("{dispname}", dispname);
+        format = format.replace("{group}", group);
+        format = format.replace("{suffix}", suffix);
+        format = format.replace("{prefix}", prefix);
+        format = format.replace("{world}", world);
+        format = format.replace("{message}", message);
+        if (format.contains("{towny")) {
+            format = format.replace("{townyprefix}", townyprefix);
+            format = format.replace("{townysuffix}", townysuffix);
+            format = format.replace("{townytitle}", townytitle);
+            format = format.replace("{townysurname}", townysurname);
+            format = format.replace("{townytown}", townytown);
+            format = format.replace("{townynation}", townynation);
+        }
+        return format;
+    }
+
+    public String formatChatNoCaps(String message, CommandSender sender, String base) {
+        String townyprefix = null;
+        String townysuffix = null;
+        String townytitle = null;
+        String townysurname = null;
+        String townytown = null;
+        String townynation = null;
+        if (message.startsWith("&") && message.length() == 2) {
+            return "";
+        }
+
+        // Test if authorized for color
+        if (!isAuthorized(sender, "rchat.color")) {
+
+            // If not, remove color
+            message = message.replace("&&", "&");
+            message = message.replaceAll("(&([a-f0-9kK]))", "");
+
+        } else if (isAuthorized(sender, "rchat.color")) {
+
+            // If yes, allow color
+            message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+
+        }
+
+        if (plugin.highlightUrls) {
+            message = message.replaceAll("(?i)((http|ftp|https|gopher)://)?[\\w\\.-]*\\.(com|org|net|tk|us|co.uk)(/[\\w/-]*((\\.[\\w-]*)?)|/)?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
+        }
+
+        if (message.contains("%")) {
+            message = message.replace("%", "%%");
+        }
+
+        if (plugin.remCaps) {
+            if (!isAuthorized(sender, "rchat.caps")) {
+                float a = 0;
+                String[] msg = message.replaceAll("\\W", "").split("");
+                for (String s : msg) if (s.matches("[A-Z]")) a++;
+                float percCaps = a / (float) msg.length;
+                float pC = plugin.capsPerc / 100F;
+                if (percCaps >= pC) message = message.toLowerCase();
+            }
         }
 
         // If you have permissions, set chat format

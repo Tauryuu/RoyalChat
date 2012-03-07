@@ -1,11 +1,11 @@
-package tk.royaldev.royalchat;
+package org.royaldev.royalchat;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import tk.royaldev.royalchat.utils.Formatter;
+import org.royaldev.royalchat.utils.Formatter;
 
 public class RoyalChatCommands implements CommandExecutor {
 
@@ -59,7 +59,7 @@ public class RoyalChatCommands implements CommandExecutor {
                 return true;
             }
             Player p = (Player) cs;
-            String format = f.formatChat(getFinalArg(args, 0), p, plugin.formatMeBase);
+            String format = f.formatChatNoCaps(getFinalArg(args, 0), p, plugin.formatMeBase);
             plugin.getServer().broadcastMessage(format);
             return true;
         } else if (cmd.getName().equalsIgnoreCase("say")) {

@@ -1,11 +1,11 @@
-package tk.royaldev.royalchat.utils;
+package org.royaldev.royalchat.utils;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.gui.Color;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.player.SpoutPlayer;
-import tk.royaldev.royalchat.RoyalChat;
+import org.royaldev.royalchat.RoyalChat;
 
 import java.util.HashMap;
 

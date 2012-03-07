@@ -1,4 +1,4 @@
-package tk.royaldev.royalchat;
+package org.royaldev.royalchat;
 
 /*
  This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import tk.royaldev.royalchat.listeners.RoyalChatPListener;
-import tk.royaldev.royalchat.listeners.SpoutListener;
+import org.royaldev.royalchat.listeners.RoyalChatPListener;
+import org.royaldev.royalchat.listeners.SpoutListener;
 
 import java.util.ArrayList;
 import java.util.List;
