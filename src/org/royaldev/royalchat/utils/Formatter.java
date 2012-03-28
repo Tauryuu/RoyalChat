@@ -37,31 +37,15 @@ public class Formatter {
         String townysurname = null;
         String townytown = null;
         String townynation = null;
-        if (message.startsWith("&") && message.length() == 2) {
-            return "";
-        }
-
-        // Test if authorized for color
+        if (message.startsWith("&") && message.length() == 2) return "";
         if (!isAuthorized(sender, "rchat.color")) {
-
-            // If not, remove color
             message = message.replace("&&", "&");
             message = message.replaceAll("(&([a-f0-9kK]))", "");
-
-        } else if (isAuthorized(sender, "rchat.color")) {
-
-            // If yes, allow color
-            message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
-
-        }
-
-        if (plugin.highlightUrls) {
+        } else if (isAuthorized(sender, "rchat.color")) message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        if (plugin.highlightUrls)
             message = message.replaceAll("(?i)((http|ftp|https|gopher)://)?[\\w\\.-]*\\.(com|org|net|tk|us|co.uk)(/[\\w/-]*((\\.[\\w-]*)?)|/)?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
-        }
 
-        if (message.contains("%")) {
-            message = message.replace("%", "%%");
-        }
+        if (message.contains("%")) message = message.replace("%", "%%");
 
         if (plugin.remCaps) {
             if (!isAuthorized(sender, "rchat.caps")) {
@@ -78,13 +62,8 @@ public class Formatter {
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 if (!VanishUtils.isVanished(p)) {
                     if (message.toLowerCase().contains(p.getName().toLowerCase())) {
-                        if (plugin.spout) {
-                            SpoutMethods.updateNumberOnName(p, plugin);
-                        }
-                        if (plugin.useAtSign)
-                            message = message.replaceAll("(?i)" + p.getName(), ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE);
-                        else
-                            message = message.replaceAll("(?i)" + p.getName(), ChatColor.AQUA + p.getName() + ChatColor.WHITE);
+                        if (plugin.spout) SpoutMethods.updateNumberOnName(p, plugin);
+                        message = (plugin.useAtSign) ? message.replaceAll("(?i)" + p.getName(), ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE) : message.replaceAll("(?i)" + p.getName(), ChatColor.AQUA + p.getName() + ChatColor.WHITE);
                         if (plugin.smokeAtUser) {
                             Location pLoc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1, p.getLocation().getZ());
                             for (int i = 0; i < 8; i++) {
@@ -192,27 +171,14 @@ public class Formatter {
         String townysurname = null;
         String townytown = null;
         String townynation = null;
-        if (message.startsWith("&") && message.length() == 2) {
-            return "";
-        }
-
-        // Test if authorized for color
+        if (message.startsWith("&") && message.length() == 2) return "";
         if (!isAuthorized(sender, "rchat.color")) {
-
-            // If not, remove color
             message = message.replace("&&", "&");
             message = message.replaceAll("(&([a-f0-9kK]))", "");
+        } else if (isAuthorized(sender, "rchat.color")) message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
 
-        } else if (isAuthorized(sender, "rchat.color")) {
-
-            // If yes, allow color
-            message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
-
-        }
-
-        if (plugin.highlightUrls) {
+        if (plugin.highlightUrls)
             message = message.replaceAll("(?i)((http|ftp|https|gopher)://)?[\\w\\.-]*\\.(com|org|net|tk|us|co.uk)(/[\\w/-]*((\\.[\\w-]*)?)|/)?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
-        }
 
         if (plugin.remCaps) {
             if (!isAuthorized(sender, "rchat.caps")) {
@@ -224,31 +190,6 @@ public class Formatter {
                 if (percCaps >= pC) message = message.toLowerCase();
             }
         }
-
-        /*if (plugin.highlightAtUser) {
-            for (Player p : plugin.getServer().getOnlinePlayers()) {
-                if (!VanishUtils.isVanished(p)) {
-                    if (message.toLowerCase().contains(p.getName().toLowerCase())) {
-                        if (plugin.spout) {
-                            SpoutMethods.updateNumberOnName(p, plugin);
-                        }
-                        if (plugin.useAtSign)
-                            message = message.replaceAll("(?i)" + p.getName(), ChatColor.AQUA + "@" + p.getName() + ChatColor.WHITE);
-                        else
-                            message = message.replaceAll("(?i)" + p.getName(), ChatColor.AQUA + p.getName() + ChatColor.WHITE);
-                        if (plugin.smokeAtUser) {
-                            Location pLoc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1, p.getLocation().getZ());
-                            for (int i = 0; i < 8; i++) {
-                                if (i != 4) {
-                                    p.getWorld().playEffect(pLoc, Effect.SMOKE, i);
-                                    p.getWorld().playEffect(pLoc, Effect.SMOKE, i);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
 
         if (plugin.firstWordCapital) {
             String firstLetter = message.substring(0, 1);
@@ -346,27 +287,14 @@ public class Formatter {
         String townysurname = null;
         String townytown = null;
         String townynation = null;
-        if (message.startsWith("&") && message.length() == 2) {
-            return "";
-        }
-
-        // Test if authorized for color
+        if (message.startsWith("&") && message.length() == 2) return "";
         if (!isAuthorized(sender, "rchat.color")) {
-
-            // If not, remove color
             message = message.replace("&&", "&");
             message = message.replaceAll("(&([a-f0-9kK]))", "");
+        } else if (isAuthorized(sender, "rchat.color")) message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
 
-        } else if (isAuthorized(sender, "rchat.color")) {
-
-            // If yes, allow color
-            message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
-
-        }
-
-        if (plugin.highlightUrls) {
+        if (plugin.highlightUrls)
             message = message.replaceAll("(?i)((http|ftp|https|gopher)://)?[\\w\\.-]*\\.(com|org|net|tk|us|co.uk)(/[\\w/-]*((\\.[\\w-]*)?)|/)?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
-        }
 
         if (plugin.remCaps) {
             if (!isAuthorized(sender, "rchat.caps")) {
