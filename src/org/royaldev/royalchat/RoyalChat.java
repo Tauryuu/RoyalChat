@@ -74,6 +74,7 @@ public class RoyalChat extends JavaPlugin {
     public Boolean dispNotify = null;
     public Boolean remCaps = null;
     public Boolean useAtSign = null;
+    public Boolean interWorld = null;
     public Float capsPerc = null;
     public Float maxRadius = null;
 
@@ -92,6 +93,7 @@ public class RoyalChat extends JavaPlugin {
         dispNotify = getConfig().getBoolean("display-messages-achievements");
         remCaps = getConfig().getBoolean("remove-all-caps");
         useAtSign = getConfig().getBoolean("use-at-sign");
+        interWorld = getConfig().getBoolean("interworld");
         capsPerc = (float) this.getConfig().getDouble("caps-removal-percent");
         maxRadius = (float) this.getConfig().getDouble("chat-radius");
     }

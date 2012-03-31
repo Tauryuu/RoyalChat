@@ -26,3 +26,5 @@ remove-all-caps: true
 caps-removal-percent: 75
 # Max chat radius. 0 is none
 chat-radius: 0
+# Allow inter-world chat?
+interworld: true

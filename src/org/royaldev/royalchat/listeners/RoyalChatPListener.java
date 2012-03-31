@@ -47,6 +47,11 @@ public class RoyalChatPListener implements Listener {
             return;
         }
 
+        if (!plugin.interWorld) {
+            event.getRecipients().clear();
+            event.getRecipients().addAll(sender.getWorld().getPlayers());
+        }
+
         if (plugin.maxRadius > 0) {
             double radius = plugin.maxRadius;
             List<Entity> ents = sender.getNearbyEntities(radius, radius, radius);
