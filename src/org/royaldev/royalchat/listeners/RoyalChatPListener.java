@@ -7,7 +7,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.royaldev.royalchat.RoyalChat;
-import org.royaldev.royalchat.utils.Formatter;
 
 import java.util.List;
 
@@ -23,8 +22,6 @@ public class RoyalChatPListener implements Listener {
         return player.isOp() || plugin.setupPermissions() && RoyalChat.permission.has(player, node);
     }
 
-    public Formatter f = new Formatter(plugin);
-
     // The chat processor
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(PlayerChatEvent event) {
@@ -37,7 +34,7 @@ public class RoyalChatPListener implements Listener {
         Player sender = event.getPlayer();
 
         if (plugin.acd.contains(sender)) {
-            String format = f.formatChat(message, sender, plugin.formatAdmin);
+            String format = plugin.f.formatChat(message, sender, plugin.formatAdmin);
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 if (!isAuthorized(p, "rchat.ac")) continue;
                 p.sendMessage(format);
@@ -64,7 +61,7 @@ public class RoyalChatPListener implements Listener {
             }
         }
 
-        String format = f.formatChat(message, sender, plugin.formatBase);
+        String format = plugin.f.formatChat(message, sender, plugin.formatBase);
         if (format.equals("")) event.setCancelled(true);
         event.setFormat(format);
     }

@@ -26,6 +26,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.royaldev.royalchat.listeners.RoyalChatPListener;
 import org.royaldev.royalchat.listeners.SpoutListener;
+import org.royaldev.royalchat.utils.Formatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,8 @@ public class RoyalChat extends JavaPlugin {
     public static Chat chat = null;
 
     public boolean spout;
+
+    public Formatter f = new Formatter(this);
     
     public List<Player> acd = new ArrayList<Player>();
 

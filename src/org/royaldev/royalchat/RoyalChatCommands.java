@@ -5,7 +5,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.royaldev.royalchat.utils.Formatter;
 
 public class RoyalChatCommands implements CommandExecutor {
 
@@ -34,7 +33,6 @@ public class RoyalChatCommands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender cs, Command cmd, String commandLabel, String[] args) {
-        Formatter f = new Formatter(plugin);
         if (cmd.getName().equalsIgnoreCase("rchat")) {
             if (!isAuthorized(cs, "rchat.rchat")) {
                 cs.sendMessage(ChatColor.RED + "You don't have permission for that!");
@@ -59,7 +57,7 @@ public class RoyalChatCommands implements CommandExecutor {
                 return true;
             }
             Player p = (Player) cs;
-            String format = f.formatChatNoCaps(getFinalArg(args, 0), p, plugin.formatMeBase);
+            String format = plugin.f.formatChatNoCaps(getFinalArg(args, 0), p, plugin.formatMeBase);
             plugin.getServer().broadcastMessage(format);
             return true;
         } else if (cmd.getName().equalsIgnoreCase("say")) {
@@ -71,7 +69,7 @@ public class RoyalChatCommands implements CommandExecutor {
                 cs.sendMessage(cmd.getDescription());
                 return false;
             }
-            String format = f.formatChatSay(getFinalArg(args, 0), cs, plugin.formatSay);
+            String format = plugin.f.formatChatSay(getFinalArg(args, 0), cs, plugin.formatSay);
             plugin.getServer().broadcastMessage(format);
             return true;
         } else if (cmd.getName().equalsIgnoreCase("ac")) {
@@ -95,7 +93,7 @@ public class RoyalChatCommands implements CommandExecutor {
                 return true;
             }
             String message = getFinalArg(args, 0);
-            String format = f.formatChatSay(message, cs, plugin.formatAdmin);
+            String format = plugin.f.formatChatSay(message, cs, plugin.formatAdmin);
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 if (!isAuthorized(p, "rchat.ac")) continue;
                 p.sendMessage(format);
