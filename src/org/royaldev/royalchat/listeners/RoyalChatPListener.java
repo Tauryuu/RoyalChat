@@ -23,11 +23,12 @@ public class RoyalChatPListener implements Listener {
         return player.isOp() || plugin.setupPermissions() && RoyalChat.permission.has(player, node);
     }
 
+    public Formatter f = new Formatter(plugin);
+
     // The chat processor
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(PlayerChatEvent event) {
-
-        Formatter f = new Formatter(plugin);
+        if (event.isCancelled()) return;
 
         // Get sent message
         String message = event.getMessage().trim();
