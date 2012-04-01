@@ -1,5 +1,6 @@
 package org.royaldev.royalchat.listeners;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -59,6 +60,8 @@ public class RoyalChatPListener implements Listener {
                 Player t = (Player) e;
                 event.getRecipients().add(t);
             }
+            if (event.getRecipients().isEmpty()) sender.sendMessage(ChatColor.GRAY + "You feel lonely.");
+            event.getRecipients().add(sender);
         }
 
         String format = plugin.f.formatChat(message, sender, plugin.formatBase);
