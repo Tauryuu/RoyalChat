@@ -40,7 +40,7 @@ public class Formatter {
         if (message.startsWith("&") && message.length() == 2) return "";
         if (!isAuthorized(sender, "rchat.color")) {
             message = message.replace("&&", "&");
-            message = message.replaceAll("(&([a-f0-9kK]))", "");
+            message = message.replaceAll("(&([a-f0-9k-orR]))", "");
         } else if (isAuthorized(sender, "rchat.color")) message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
         if (plugin.highlightUrls)
             message = message.replaceAll("(?i)((http|ftp|https|gopher)://)?[\\w\\.-]*\\.(com|org|net|tk|us|co.uk)(/[\\w/-]*((\\.[\\w-]*)?)|/)?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
@@ -88,31 +88,31 @@ public class Formatter {
 
         String format = base;
 
-        String name = sender.getName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        String name = sender.getName().replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
         String prefix;
         try {
-            prefix = RoyalChat.chat.getPlayerPrefix(sender).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+            prefix = RoyalChat.chat.getPlayerPrefix(sender).replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
         } catch (Exception e) {
             prefix = "";
         }
 
         String suffix;
         try {
-            suffix = RoyalChat.chat.getPlayerSuffix(sender).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+            suffix = RoyalChat.chat.getPlayerSuffix(sender).replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
         } catch (Exception e) {
             suffix = "";
         }
 
         String group;
         try {
-            group = RoyalChat.permission.getPrimaryGroup(sender).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+            group = RoyalChat.permission.getPrimaryGroup(sender).replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
         } catch (Exception e) {
             group = "";
         }
 
         String dispname;
         try {
-            dispname = sender.getDisplayName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+            dispname = sender.getDisplayName().replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
         } catch (Exception e) {
             dispname = "";
         }
@@ -174,7 +174,7 @@ public class Formatter {
         if (message.startsWith("&") && message.length() == 2) return "";
         if (!isAuthorized(sender, "rchat.color")) {
             message = message.replace("&&", "&");
-            message = message.replaceAll("(&([a-f0-9kK]))", "");
+            message = message.replaceAll("(&([a-f0-9k-orR]))", "");
         } else if (isAuthorized(sender, "rchat.color")) message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
 
         if (plugin.highlightUrls)
@@ -199,7 +199,7 @@ public class Formatter {
 
         // If you have permissions, set chat format
         String format = base;
-        String name = sender.getName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        String name = sender.getName().replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
         String prefix = "";
         String suffix = "";
         String group = "";
@@ -209,25 +209,25 @@ public class Formatter {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             try {
-                prefix = RoyalChat.chat.getPlayerPrefix(p).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+                prefix = RoyalChat.chat.getPlayerPrefix(p).replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
             } catch (Exception e) {
                 prefix = "";
             }
 
             try {
-                suffix = RoyalChat.chat.getPlayerSuffix(p).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+                suffix = RoyalChat.chat.getPlayerSuffix(p).replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
             } catch (Exception e) {
                 suffix = "";
             }
 
             try {
-                group = RoyalChat.permission.getPrimaryGroup(p).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+                group = RoyalChat.permission.getPrimaryGroup(p).replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
             } catch (Exception e) {
                 group = "";
             }
 
             try {
-                dispname = p.getDisplayName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+                dispname = p.getDisplayName().replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
             } catch (Exception e) {
                 dispname = "";
             }
@@ -309,7 +309,7 @@ public class Formatter {
 
         // If you have permissions, set chat format
         String format = base;
-        String name = sender.getName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        String name = sender.getName().replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
         String prefix = "";
         String suffix = "";
         String group = "";
@@ -319,25 +319,25 @@ public class Formatter {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             try {
-                prefix = RoyalChat.chat.getPlayerPrefix(p).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+                prefix = RoyalChat.chat.getPlayerPrefix(p).replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
             } catch (Exception e) {
                 prefix = "";
             }
 
             try {
-                suffix = RoyalChat.chat.getPlayerSuffix(p).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+                suffix = RoyalChat.chat.getPlayerSuffix(p).replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
             } catch (Exception e) {
                 suffix = "";
             }
 
             try {
-                group = RoyalChat.permission.getPrimaryGroup(p).replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+                group = RoyalChat.permission.getPrimaryGroup(p).replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
             } catch (Exception e) {
                 group = "";
             }
 
             try {
-                dispname = p.getDisplayName().replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+                dispname = p.getDisplayName().replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
             } catch (Exception e) {
                 dispname = "";
             }
