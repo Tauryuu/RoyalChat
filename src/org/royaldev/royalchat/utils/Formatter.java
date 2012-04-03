@@ -175,7 +175,7 @@ public class Formatter {
         if (!isAuthorized(sender, "rchat.color")) {
             message = message.replace("&&", "&");
             message = message.replaceAll("(&([a-f0-9k-orR]))", "");
-        } else if (isAuthorized(sender, "rchat.color")) message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
+        } else if (isAuthorized(sender, "rchat.color")) message = message.replaceAll("(&([a-f0-9k-orR]))", "\u00A7$2");
 
         if (plugin.highlightUrls)
             message = message.replaceAll("(?i)((http|ftp|https|gopher)://)?[\\w\\.-]*\\.(com|org|net|tk|us|co.uk)(/[\\w/-]*((\\.[\\w-]*)?)|/)?", ChatColor.getByChar("3") + "$0" + ChatColor.WHITE);
@@ -290,7 +290,7 @@ public class Formatter {
         if (message.startsWith("&") && message.length() == 2) return "";
         if (!isAuthorized(sender, "rchat.color")) {
             message = message.replace("&&", "&");
-            message = message.replaceAll("(&([a-f0-9kK]))", "");
+            message = message.replaceAll("(&([a-f0-9k-orR]))", "");
         } else if (isAuthorized(sender, "rchat.color")) message = message.replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
 
         if (plugin.highlightUrls)
