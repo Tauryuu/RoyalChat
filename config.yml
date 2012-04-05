@@ -44,7 +44,7 @@ channels:
     chat-format: "[d] {dispname}: {message}"
     # Chat radius (0 makes for no limit)
     chat-radius: 0
-    # Make the channel global? Chat in globals can always be seen, even if you're in another channel
+    # Make the channel global? Chat in globals can always be seen, even if you're in another channel. Overrides chat-radius. Respects interworld
     global: true
     # Allow interworld chat in this channel? Overrides main interworld setting.
     interworld: true
