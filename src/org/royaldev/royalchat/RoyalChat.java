@@ -85,7 +85,6 @@ public class RoyalChat extends JavaPlugin {
     public Float maxRadius = null;
 
     public void loadConfiguration() {
-        getConfig().options().copyDefaults(true);
         saveConfig();
         formatBase = getConfig().getString("chat-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
         formatMeBase = getConfig().getString("me-format").replaceAll("(&([a-f0-9kK]))", "\u00A7$2");
