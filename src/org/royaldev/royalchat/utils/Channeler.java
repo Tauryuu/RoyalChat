@@ -30,11 +30,18 @@ public class Channeler {
     }
 
     private void chatRadiusSet(Player sender, double chatRadius, PlayerChatEvent event) {
+        if (chatRadius == 0) {
+            for (Player p : plugin.getServer().getOnlinePlayers()) {
+                if (p.equals(sender)) continue;
+                event.getRecipients().add(p);
+            }
+            return;
+        }
         List<Entity> ents = sender.getNearbyEntities(chatRadius, chatRadius, chatRadius);
-        event.getRecipients().clear();
         for (Entity e : ents) {
             if (!(e instanceof Player)) continue;
             Player t = (Player) e;
+            if (t.equals(sender)) continue;
             if (!playerChans.containsKey(t) || !playerChans.get(t).equals(playerChans.get(sender))) continue;
             event.getRecipients().add(t);
         }
@@ -46,6 +53,8 @@ public class Channeler {
         ConfigurationSection cs = plugin.getConfig().getConfigurationSection("channels." + channel);
         if (cs == null) return message;
 
+        event.getRecipients().clear();
+
         // Channel options
         double chatRadius = cs.getDouble("chat-radius");
         boolean global = cs.getBoolean("global");
@@ -53,12 +62,11 @@ public class Channeler {
         Boolean snoop = cs.getBoolean("snoop");
         String chatFormat = cs.getString("chat-format");
 
-        if (chatRadius > 0) chatRadiusSet(sender, chatRadius, event);
-        if (!global) {
-            event.getRecipients().clear();
+        chatRadiusSet(sender, chatRadius, event);
+        if (global) {
             for (Player p : plugin.getServer().getOnlinePlayers()) {
-                if (!playerChans.containsKey(p) || !playerChans.get(p).equals(playerChans.get(sender))) continue;
                 if (!interworld && !p.getWorld().equals(sender.getWorld())) continue;
+                if (p.equals(sender)) continue;
                 event.getRecipients().add(p);
             }
         }
