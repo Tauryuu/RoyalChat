@@ -26,6 +26,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.royaldev.royalchat.listeners.RoyalChatPListener;
 import org.royaldev.royalchat.listeners.SpoutListener;
+import org.royaldev.royalchat.utils.Channeler;
 import org.royaldev.royalchat.utils.Formatter;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class RoyalChat extends JavaPlugin {
     public boolean spout;
 
     public Formatter f = new Formatter(this);
+    public Channeler c = new Channeler(this);
     
     public List<Player> acd = new ArrayList<Player>();
 
@@ -78,6 +80,7 @@ public class RoyalChat extends JavaPlugin {
     public Boolean remCaps = null;
     public Boolean useAtSign = null;
     public Boolean interWorld = null;
+    public Boolean useChannels = null;
     public Float capsPerc = null;
     public Float maxRadius = null;
 
@@ -97,6 +100,7 @@ public class RoyalChat extends JavaPlugin {
         remCaps = getConfig().getBoolean("remove-all-caps");
         useAtSign = getConfig().getBoolean("use-at-sign");
         interWorld = getConfig().getBoolean("interworld");
+        useChannels = getConfig().getBoolean("use-channels");
         capsPerc = (float) this.getConfig().getDouble("caps-removal-percent");
         maxRadius = (float) this.getConfig().getDouble("chat-radius");
     }
@@ -124,6 +128,7 @@ public class RoyalChat extends JavaPlugin {
         getCommand("rclear").setExecutor(cmdExec);
         getCommand("say").setExecutor(cmdExec);
         getCommand("ac").setExecutor(cmdExec);
+        getCommand("ch").setExecutor(cmdExec);
 
         log.info("[RoyalChat] Version " + this.version + " initiated.");
 

@@ -1,13 +1,17 @@
 package org.royaldev.royalchat.listeners;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.royaldev.royalchat.RoyalChat;
+import org.royaldev.royalchat.utils.Channeler;
+import org.royaldev.royalchat.utils.RUtils;
 
 import java.util.List;
 
@@ -21,6 +25,19 @@ public class RoyalChatPListener implements Listener {
 
     public boolean isAuthorized(final Player player, final String node) {
         return player.isOp() || plugin.setupPermissions() && RoyalChat.permission.has(player, node);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        if (Channeler.playerChans.containsKey(e.getPlayer())) return;
+        ConfigurationSection channels = plugin.getConfig().getConfigurationSection("channels");
+        for (String chan : channels.getValues(true).keySet()) {
+            if (!(channels.get(chan) instanceof ConfigurationSection)) continue;
+            ConfigurationSection chanc = (ConfigurationSection) channels.get(chan);
+            Boolean defChan = chanc.getBoolean("default");
+            if (defChan == null) continue;
+            if (defChan) plugin.c.addToChannel(e.getPlayer(), chanc.getName());
+        }
     }
 
     // The chat processor
@@ -49,6 +66,15 @@ public class RoyalChatPListener implements Listener {
         if (!plugin.interWorld) {
             event.getRecipients().clear();
             event.getRecipients().addAll(sender.getWorld().getPlayers());
+        }
+
+        if (plugin.useChannels) {
+            message = plugin.c.channelChat(sender, message, event);
+            if (message.equals("")) event.setCancelled(true);
+            event.setFormat(RUtils.colorize(message));
+            for (Player p : plugin.getServer().getOnlinePlayers())
+                if (isAuthorized(p, "rchat.snoop")) event.getRecipients().add(p);
+            return;
         }
 
         if (plugin.maxRadius > 0) {

@@ -28,6 +28,11 @@ commands:
     description: Talks in Admin Chat or toggles it.
     aliases: [adminchat, a]
     usage: /<command> (message)
+
+  ch:
+    description: Changes your channel.
+    aliases: [channel]
+    usage: /<command> <channel> (password)
     
 permissions:
   rchat.*:
@@ -40,6 +45,10 @@ permissions:
       rchat.say: true
       rchat.caps: true
       rchat.ac: true
+      rchat.snoop: true
+  rchat.snoop:
+    description: Allows you to see all chat in all channels.
+    default: false
   rchat.rchat:
     description: Allows you to reload RoyalChat.
     default: op

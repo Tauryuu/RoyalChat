@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 public class RoyalChatCommands implements CommandExecutor {
@@ -43,6 +44,60 @@ public class RoyalChatCommands implements CommandExecutor {
                 cs.sendMessage(ChatColor.AQUA + "RoyalChat" + ChatColor.GREEN + " version " + plugin.version + " reloaded.");
                 return true;
             }
+        } else if (cmd.getName().equalsIgnoreCase("ch")) {
+            if (!isAuthorized(cs, "rchat.ch")) {
+                cs.sendMessage(ChatColor.RED + "You don't have permission for that!");
+                return true;
+            }
+            if (!(cs instanceof Player)) {
+                cs.sendMessage(ChatColor.RED + "This command is only available to players!");
+                return true;
+            }
+            Player p = (Player) cs;
+            if (args.length < 1) {
+                cs.sendMessage(cmd.getDescription());
+                return false;
+            }
+            String channelToJoin = args[0];
+            String password = null;
+            if (args.length > 1) password = args[1];
+            ConfigurationSection channels = plugin.getConfig().getConfigurationSection("channels");
+            if (channels == null) {
+                cs.sendMessage(ChatColor.RED + "There are no channels!");
+                return true;
+            }
+            ConfigurationSection channel = null;
+            for (String chan : channels.getValues(true).keySet()) {
+                if (!(channels.get(chan) instanceof ConfigurationSection)) continue;
+                ConfigurationSection chanc = (ConfigurationSection) channels.get(chan);
+                String chanShort = chanc.getString("short");
+                if (chanShort == null) continue;
+                if (chanShort.equals(channelToJoin)) channel = channels.getConfigurationSection(chan);
+            }
+            if (channel == null) {
+                cs.sendMessage(ChatColor.RED + "No such channel!");
+                return true;
+            }
+            // Channel options
+            String name = channel.getString("name");
+            boolean usePass = channel.getBoolean("use-password");
+
+            if (!usePass && password != null)
+                cs.sendMessage(ChatColor.GRAY + "For future reference, this channel does not require a password.");
+            if (usePass) {
+                if (password == null) {
+                    cs.sendMessage(ChatColor.RED + "This channel requires a password!");
+                    return true;
+                }
+                String chanPass = channel.getString("password");
+                if (!password.equals(chanPass)) {
+                    cs.sendMessage(ChatColor.RED + "Incorrect password!");
+                    return true;
+                }
+            }
+            plugin.c.addToChannel(p, channel.getName());
+            cs.sendMessage(ChatColor.BLUE + "Joined " + ChatColor.GRAY + name + ChatColor.BLUE + ".");
+            return true;
         } else if (cmd.getName().equalsIgnoreCase("me")) {
             if (!isAuthorized(cs, "rchat.me")) {
                 cs.sendMessage(ChatColor.RED + "You don't have permission for that!");

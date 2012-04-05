@@ -24,7 +24,43 @@ display-messages-achievements: true
 remove-all-caps: true
 # Percent of message that must be in caps to be make it lowercase (remove-all-caps must be true)
 caps-removal-percent: 75
-# Max chat radius. 0 is none
+# Max chat radius. 0 is none. Overrides channels if greater than 0 (leave at 0 to use channel limits)
 chat-radius: 0
-# Allow inter-world chat?
+# Allow inter-world chat? Does not override channels
 interworld: true
+# Use channels?
+use-channels: true
+# Define channels here
+channels:
+  # Each option in the default chat channel is required for all other channels (unless otherwise stated)
+  default:
+    # Long name
+    name: "Default"
+    # Name for use in /ch
+    short: "d"
+    # Default? There can only be one...
+    default: true
+    # Chat format
+    chat-format: "[d] {dispname}: {message}"
+    # Chat radius (0 makes for no limit)
+    chat-radius: 0
+    # Make the channel global? Chat in globals can always be seen, even if you're in another channel
+    global: true
+    # Allow interworld chat in this channel? Overrides main interworld setting.
+    interworld: true
+    # Use a password?
+    use-password: false
+    # Sets the password (syntax: /ch d abc) - if use_password is false, this is optional
+    password: "abc"
+  admin:
+    name: "Admin"
+    short: "a"
+    default: false
+    chat-format: "&b[Admin] {dispname}:&3 {message}"
+    chat-radius: 0
+    global: false
+    interworld: true
+    use-password: true
+    password: "supersecret"
+    # See all messages from all channels?
+    snoop: true
